@@ -3,4 +3,4 @@ GPAOA
 
 GP APDU Organizer Analyst
 
-V0.2:123123
+V0.1:
