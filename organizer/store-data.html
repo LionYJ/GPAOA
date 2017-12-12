@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GPAOA">
+    <meta name="author" content="LionYJ">
+    <link rel="../icon" href="favicon.ico">
+
+    <title>GPAOA-GP APDU Organizer Analyst</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">GPAOA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="index_organizer.html">Organizer</a></li>
+            <li><a href="../index_analyst.html">Analyst</a></li>
+            <li><a href="../help.html">Help</a></li>
+          </ul>
+          <!--
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+          -->
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="index_organizer.html">Organise GP APDU<span class="sr-only">(current)</span></a></li>
+            <!--
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+            -->
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="select.html">SELECT</a></li>
+            <li><a href="manage-channel.html">MANAGE CHANNEL</a></li>
+
+            <li><a href="install.html">INSTALL</a></li>
+            <li><a href="load.html">LOAD</a></li>
+            <li><a href="delete.html">DELETE</a></li>
+            <li><a href="put-key.html">PUT KEY</a></li>
+        
+            <li><a href="get-data.html">GET DATA</a></li>
+            <li class="active"><a href="store-data.html">STORE DATA</a></li>
+          
+            <li><a href="get-status.html">GET STATUS</a></li>
+            <li><a href="set-status.html">SET STATUS</a></li>
+
+            <li><a href="initialize-update.html">INITIALIZE UPDATE</a></li>
+            <li><a href="external-authenticate.html">EXTERNAL AUTHENTICATE</a></li>
+
+            <li><a href="begin-rmac.html">BEGIN R-MAC SESSION</a></li>
+            <li><a href="end-rmac.html">END R-MAC SESSION</a></li>
+
+            <li><a href="crs-getstatus.html">CRS-GET STATUS</a></li>
+            <li><a href="crs-setstatus.html">CRS-SET STATUS</a></li>
+
+            <li><a href="crs-select.html">CRS-SELECT</a></li>
+            <li><a href="crs-getdata.html">CRS-GET DATA</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <!--
+          <h1 class="page-header">GP APDU ORGNIZER!</h1>
+          -->
+
+          <h3 class="sub-header">STORE DATA COMMAND</h3>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Command Part</th>
+                  <th>Part Value[If the command part has multiple value to choose, support multiple-choice]</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr>
+                  <td>CLA</td>
+                  <td>80</td>
+                </tr>
+                <tr>
+                  <td>INS</td>
+                  <td>E2</td>
+                </tr>
+                <tr>
+                  <td>P1</td>
+                  <td>
+                    <label>bit8 [More or last blocks]</label><br>
+                    <input type="radio" name="store_data_p1_bit8" id="" value="00"> 00 [More blocks] &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="store_data_p1_bit8" id="" value="80" checked> 80 [Last block]
+                    <br>
+                    ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    <br>
+                    <label>bit7&bit6 [encryption information of the data structure for command message data]</label><br>
+                    <input type="radio" name="store_data_p1_bit76" id="" value="00" checked> 00 [No general encryption information or non-encrypted data] &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="store_data_p1_bit76" id="" value="20"> 01 [Application dependent encryption of the data] 
+                    <br>
+                    <input type="radio" name="store_data_p1_bit76" id="" value="40"> 10 [RFU (encryption indicator)] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="store_data_p1_bit76" id="" value="60"> 11 [Encrypted data]
+                    <br>
+                    ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+                    <br>
+                    <label>bit5&bit4 [data structure information of the command message data field]</label><br>
+                    <input type="radio" name="store_data_p1_bit54" id="" value="00"> 00 [No general data structure information] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="store_data_p1_bit54" id="" value="08" checked> 01 [DGI format of the command data field] 
+                    <br>
+                    <input type="radio" name="store_data_p1_bit54" id="" value="10"> 10 [BER -TLV format of the command data field] &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="store_data_p1_bit54" id="" value="18"> 11 [RFU (data structure information) ]
+                    <br>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>P2</td>
+                  <td>
+                    <div class="col-xs-3">
+                      <label>Block number (Hex Value)</label>
+                      <input id="store_data_p2" type="text" class="form-control" value="00" placeholder="Block number"> 
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>LC</td>
+                  <td>
+                    <div class="col-xs-3">
+                      <input class="form-control" id="lcText" type="text" placeholder="automatic calculation" disabled>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Data Field</td>
+                  <td>
+                    <div class="col-xs-5">
+                      <input type="checkbox" name="store_data_field" id="iin" value="42" checked> 42 [Card Issuer or SD Provider Identifcation Number] 
+                      <input id="42Text" type="text" class="form-control" placeholder=""><br>
+
+                      <input type="checkbox" name="store_data_field" id="cin" value="45"> 45 [Card or Security Domain Image Number] <br>
+                      <input id="45Text" type="text" class="form-control" placeholder=""><br>
+
+                      <input type="checkbox" name="store_data_field" id="isda" value="4F"> 4F [Issuer Security Domain AID] <br>
+                      <input id="4FText" type="text" class="form-control" placeholder=""><br>
+
+                      <input type="checkbox" name="store_data_field" id="imd" value="66"> 66 [Card or Security Domain Management Data] <br>
+                      <input id="66Text" type="text" class="form-control" placeholder=""><br>
+                  
+                      <input type="checkbox" name="store_data_field" id="sdmu" value="5F50"> 5F50 [Security Domain Manager URL - Amend C] <br>
+                      <input id="5F50Text" type="text" class="form-control" placeholder=""><br>
+
+                      <input type="checkbox" name="store_data_field" id="cci" value="67"> 67 [Card Capability Information - SE Config] <br>
+                      <input id="67Text" type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="col-xs-5">
+                      <input type="checkbox" name="store_data_field" id="kdd" value="00CF"> 00CF [Key Derivation Data(10Bytes)] <br>
+                      <input id="00CFText" type="text" class="form-control" placeholder=""><br>
+
+                      <input type="checkbox" name="store_data_field" id="clcs" value="9F70"> 9F70 [Card Life Cycle State(1Byte))] <br>
+                      <input id="9F70Text" type="text" class="form-control" placeholder=""><br>
+                      <!--
+                      <input type="checkbox" name="store_data_field" id="scdk" value="8F01"> 8F01 [Secure Channel DES keys(48Bytes)] <br>
+                      <input id="8F01Text" type="text" class="form-control" placeholder=""><br>
+                      -->
+                      <input type="checkbox" name="store_data_field" id="dkrd" value="7F01"> 7F01 [DES key related data(12Bytes)] <br>
+                      <input id="7F01Text" type="text" class="form-control" placeholder=""><br>
+                      
+                      <input type="checkbox" name="store_data_field" id="dvkd" value="9102"> 9102 [DAP Verification key data(129/131Bytes)] <br>
+                      <input id="9102Text" type="text" class="form-control" placeholder=""><br>
+                      <!--
+                      <input type="checkbox" name="store_data_field" id="dvkrd" value="0102"> 0102 [DAP Verification key related data(6Bytes)] <br>
+                      <input id="0102Text" type="text" class="form-control" placeholder=""><br>
+                      -->
+                      <input type="checkbox" name="store_data_field" id="custom" value="custom" disabled> Custom General Data Object Tag <br>
+                      <input id="customText" type="text" class="form-control" placeholder="Custom General Data Object Tag"> <br>
+                      <input type="checkbox" name="store_data_field" id="customDGI" value="customDGI"> Custom Data Grouping Identifier(DGI) <br>
+                      <input id="customDGIText" type="text" class="form-control" placeholder="Custom Data Grouping Identifier(DGI)">
+                    </div>
+                    
+                    <div id="myAlert" class="col-xs-4" style="display: none; color:red">Warning:Custom Data Object Tag Length Error!</div> 
+
+                  </td>
+                </tr>
+                <tr>
+                  <td><button id="organise" type="button" class="btn btn-primary">Organise</button></td>
+                  <td>
+                    <div class="col-xs-10">
+                      <input id="apduText" type="text" class="form-control" placeholder="GENERATED STORE DATA APDU COMMAND">
+                    </div>
+                    <!--
+                    <div class="col-xs-3">
+                      <button id="copyclip" type="button" class="btn btn-info">Copyclip</button>
+                    </div>
+                    -->
+                  </td>
+                  
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>
+         
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../dist/js/jquery-1.11.1.js"></script>
+    <script src="../dist/js/bootstrap.min.js"></script>
+    <script src="../assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../dist/js/gp.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#organise").click(function(){
+              $("#myAlert").hide();
+              $("#lcText").val("");
+
+              var p1_bit8 = $("input[name='store_data_p1_bit8']:checked").val();
+              var p1_bit76 = $("input[name='store_data_p1_bit76']:checked").val();
+              var p1_bit54 = $("input[name='store_data_p1_bit54']:checked").val();
+
+              var p1 = numToHexString((parseInt("0x" + p1_bit8, 16) | parseInt("0x" + p1_bit76, 16)  | parseInt("0x" + p1_bit54, 16)));
+              //alert(p1_bit8 + " " + p1_bit76 + " " + p1_bit54);
+              var p2 = $("#store_data_p2").val();
+              //alert(p2);
+
+              var dgiOrganiseData = "";
+              var dgi0070 = "";
+              var valueError = false;
+              $('input[name="store_data_field"]:checked').each(function() {
+                  var dataTag = $(this).val();
+                  //alert(dataTag);
+                  var inputText = dataTag + "Text";
+                  var dgiValue = $.trim($("#"+inputText).val());
+
+                  //alert(dgiData)
+                  if (dgiValue == "" || dgiValue.length % 2 != 0) {
+                    valueError = true;
+                    $("#myAlert").html("Tag" + dataTag + " Data Object Value Length Error!");
+                    $("#myAlert").show();
+                    $("#"+inputText).focus().select();
+                    return;
+                  }
+
+                  var dgiDataLen = dgiValue.length / 2;
+                  var dgiDataLenHex = numToHexString(dgiDataLen);
+
+                  if (p1_bit54 == "08") {
+                    switch (dataTag) {
+                    case "42":
+                    case "45":
+                    case "4F":
+                    case "66":
+                    case "67":
+                    case "5F50":
+                      dgi0070 += (dataTag + dgiDataLenHex + dgiValue);
+                      break;
+                    default:
+                      if (dataTag == "customDGI") {
+                        dgiOrganiseData += dgiValue;
+                      } else if (dataTag != "custom") {
+                        dgiOrganiseData += (dataTag + dgiDataLenHex + dgiValue);
+                      }
+                      
+                    break;
+                    };
+                  } else {
+                    if (dataTag == "custom") {
+                        dgiOrganiseData += dgiValue;
+                    } else if (dataTag != "customDGI") {
+                        dgiOrganiseData += (dataTag + dgiDataLenHex + dgiValue);
+                    }
+                  }
+
+                  //alert($("#"+inputText).val());
+                  //alert(dgiDataLenHex);           
+                });
+
+                if (dgi0070 != "") {
+                  dgi0070 = ("0070" + numToHexString(dgi0070.length / 2) + dgi0070);
+                } 
+
+                if (dgiOrganiseData == "" && dgi0070 == "" && valueError == false) {
+                   $("#myAlert").html("Data Object shall take one!");
+                   $("#myAlert").show();
+                   return;
+                }
+
+                //alert(dgiOrganiseData);
+                dgiOrganiseData = (dgi0070 + dgiOrganiseData).toUpperCase();
+
+                var lcHex = numToHexString(dgiOrganiseData.length / 2);
+                $("#lcText").val("0x" + lcHex);
+                $("#apduText").val("80E2" + p1 + p2 + lcHex + dgiOrganiseData);
+              });
+
+            // set custom data object structure by store_data_p1_bit54
+            $('input[name="store_data_p1_bit54"]').click(function(){
+              if($(this).val() == "08"){ // DGI
+               // only take Custom Data Grouping Identifier(DGI) 
+               $("#custom").removeAttr("checked");
+               $("#custom").prop("disabled", true);
+               $("#customDGI").prop("disabled",false);
+               //$("#customDGI").prop("checked",true);
+              } else {
+               // only take Custom General Data Object Tag 
+               $("#customDGI").removeAttr("checked");
+               $("#customDGI").prop("disabled", true);
+               $("#custom").prop("disabled",false);
+               //$("#custom").prop("checked",true); // use prop() instend of attr()
+              }
+            });
+            
+        });
+
+
+    </script>
+  </body>
+</html>

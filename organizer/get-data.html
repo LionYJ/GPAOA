@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GPAOA">
+    <meta name="author" content="LionYJ">
+    <link rel="../icon" href="favicon.ico">
+
+    <title>GPAOA-GP APDU Organizer Analyst</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">GPAOA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="index_organizer.html">Organizer</a></li>
+            <li><a href="../index_analyst.html">Analyst</a></li>
+            <li><a href="../help.html">Help</a></li>
+          </ul>
+          <!--
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+          -->
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="index_organizer.html">Organise GP APDU<span class="sr-only">(current)</span></a></li>
+            <!--
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+            -->
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="select.html">SELECT</a></li>
+            <li><a href="manage-channel.html">MANAGE CHANNEL</a></li>
+
+            <li><a href="install.html">INSTALL</a></li>
+            <li><a href="load.html">LOAD</a></li>
+            <li><a href="delete.html">DELETE</a></li>
+            <li><a href="put-key.html">PUT KEY</a></li>
+        
+            <li class="active"><a href="get-data.html">GET DATA</a></li>
+            <li><a href="store-data.html">STORE DATA</a></li>
+          
+            <li><a href="get-status.html">GET STATUS</a></li>
+            <li><a href="set-status.html">SET STATUS</a></li>
+
+            <li><a href="initialize-update.html">INITIALIZE UPDATE</a></li>
+            <li><a href="external-authenticate.html">EXTERNAL AUTHENTICATE</a></li>
+
+            <li><a href="begin-rmac.html">BEGIN R-MAC SESSION</a></li>
+            <li><a href="end-rmac.html">END R-MAC SESSION</a></li>
+
+            <li><a href="crs-getstatus.html">CRS-GET STATUS</a></li>
+            <li><a href="crs-setstatus.html">CRS-SET STATUS</a></li>
+
+            <li><a href="crs-select.html">CRS-SELECT</a></li>
+            <li><a href="crs-getdata.html">CRS-GET DATA</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <!--
+          <h1 class="page-header">GP APDU ORGNIZER!</h1>
+          -->
+
+          <h3 class="sub-header">GET DATA COMMAND</h3>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Command Part</th>
+                  <th>Part Value[If the command part has multiple value to choose, support multiple-choice]</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr>
+                  <td>CLA</td>
+                  <td>80</td>
+                </tr>
+                <tr>
+                  <td>INS</td>
+                  <td>CA</td>
+                </tr>
+                <tr>
+                  <td>P1 & P2</td>
+                  <td>
+                    <div class="col-xs-5">
+                    <input type="radio" name="get_data_p1_p2" id="iin" value="0042" checked> 0042 [Card Issuer or SD Provider Identifcation Number] <br>
+                    <input type="radio" name="get_data_p1_p2" id="cin" value="0045"> 0045 [Card or Security Domain Image Number] <br>
+                    <input type="radio" name="get_data_p1_p2" id="imd" value="0066"> 0066 [Card or Security Domain Management Data] <br>
+                    <input type="radio" name="get_data_p1_p2" id="kit" value="00E0"> 00E0 [Key Information Template] <br>
+                    <input type="radio" name="get_data_p1_p2" id="csl" value="00D3"> 00D3 [Current Security Level] <br>
+                    <input type="radio" name="get_data_p1_p2" id="loa" value="2F00"> 2F00 [List of Applications belonging to the SD or card] <br>
+                    <input type="radio" name="get_data_p1_p2" id="ecr" value="FF21"> FF21 [Extended Card Resources Information] <br>
+                    <input type="radio" name="get_data_p1_p2" id="cc" value="00C2"> 00C2 [Confirmation Counter] <br>
+                    <input type="radio" name="get_data_p1_p2" id="ksc" value="00C1"> 00C1 [Sequence Counter of Default Key Version Number] <br>
+                    <input type="radio" name="get_data_p1_p2" id="sdmu" value="5F50"> 5F50 [Security Domain Manager URL - Amend C] <br>
+                    <input type="radio" name="get_data_p1_p2" id="fcd" value="BF30"> BF30 [Forwarded CASD Data - Amend C] <br>
+                    <input type="radio" name="get_data_p1_p2" id="kdd" value="00CF"> 00CF [Key Derivation Data] <br>
+                    <input type="radio" name="get_data_p1_p2" id="cpui" value="00EE"> 00EE [Card Profile Unique Identifier] <br>
+                    <input type="radio" name="get_data_p1_p2" id="mp" value="FF1F"> FF1F [Menu Parameters Tag] <br>
+                    <input type="radio" name="get_data_p1_p2" id="cr" value="FF20"> FF20 [Card Resources Tag] <br>
+                    <input type="radio" name="get_data_p1_p2" id="sdcs" value="7F21"> 7F21 [Security Domain’s certificate store] <br>
+                    <input type="radio" name="get_data_p1_p2" id="cci" value="0067"> 0067 [Card Capability Information] <br>
+                    </div>
+                    <div class="col-xs-3">
+                      <input type="radio" name="get_data_p1_p2" id="custom" value="custom"> Custom P1&P2 <br>
+                      <input id="p1p1Text" type="text" class="form-control" placeholder="Custom Data Object Tag">
+                    </div>
+                    <div id="myAlert" class="col-xs-4" style="display: none; color:red">Warning:Custom Data Object Tag Length Error!</div>  
+                  </td>
+                </tr>
+                <!--
+                <tr>
+                  <td>P2</td>
+                  <td>
+                    <input type="radio" name="get_data_p2" id="delete_object" value="00" checked> 00 [Delete object] <br>
+                  </td>
+                </tr>
+                -->
+                <tr>
+                  <td>LC</td>
+                  <td>
+                    <div class="col-xs-3">
+                      <input class="form-control" id="lcText" type="text" placeholder="automatic calculation" disabled>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Data Field</td>
+                  <td>
+                    <div class="col-xs-6">
+                      <input id="dataText" type="text" class="form-control" placeholder="automatic fill" disabled>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><button id="organise" type="button" class="btn btn-primary">Organise</button></td>
+                  <td>
+                    <div class="col-xs-6">
+                      <input id="apduText" type="text" class="form-control" placeholder="GENERATED GET DATA APDU COMMAND">
+                    </div>
+                    <!--
+                    <div class="col-xs-3">
+                      <button id="copyclip" type="button" class="btn btn-info">Copyclip</button>
+                    </div>
+                    -->
+                  </td>
+                  
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>
+         
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../dist/js/jquery-1.11.1.js"></script>
+    <script src="../dist/js/bootstrap.min.js"></script>
+    <script src="../assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../dist/js/gp.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#organise").click(function(){
+              $("#myAlert").hide();
+              $("#lcText").val("");
+              $("#dataText").val("");
+
+              var p1p2 = $("input[name='get_data_p1_p2']:checked").val();
+              var data_field = "";
+              if (p1p2 == "2F00" || p1p2 == "7F21") {
+                data_field = "5C00";
+              }
+              else if (p1p2 == "FF1F") 
+              {
+                data_field = "4F051122334455";
+              }
+
+              if (p1p2 == "custom") {
+                p1p2 = $.trim($("#p1p1Text").val());
+                if (p1p2.length != 4) {
+                  $("#myAlert").show();
+                  $("#p1p1Text").focus().select();
+                  return;
+                }
+              }
+
+              var lc = data_field.length / 2;
+              var lcHex = numToHexString(lc);
+              $("#lcText").val("0x" + lcHex);
+              if (p1p2 == "FF1F") {
+                $("#dataText").val(data_field + ' [Need One Application AID TLV]');
+              } else {
+                $("#dataText").val(data_field);
+              }
+              
+              $("#apduText").val("80CA" + p1p2 + lcHex + data_field);
+            });
+
+        });
+
+
+    </script>
+  </body>
+</html>

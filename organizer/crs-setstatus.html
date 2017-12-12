@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GPAOA">
+    <meta name="author" content="LionYJ">
+    <link rel="../icon" href="favicon.ico">
+
+    <title>GPAOA-GP APDU Organizer Analyst</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">GPAOA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="index_organizer.html">Organizer</a></li>
+            <li><a href="../index_analyst.html">Analyst</a></li>
+            <li><a href="../help.html">Help</a></li>
+          </ul>
+          <!--
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+          -->
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="index_organizer.html">Organise GP APDU<span class="sr-only">(current)</span></a></li>
+            <!--
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+            -->
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="select.html">SELECT</a></li>
+            <li><a href="manage-channel.html">MANAGE CHANNEL</a></li>
+
+            <li><a href="install.html">INSTALL</a></li>
+            <li><a href="load.html">LOAD</a></li>
+            <li><a href="delete.html">DELETE</a></li>
+            <li><a href="put-key.html">PUT KEY</a></li>
+        
+            <li><a href="get-data.html">GET DATA</a></li>
+            <li><a href="store-data.html">STORE DATA</a></li>
+          
+            <li><a href="get-status.html">GET STATUS</a></li>
+            <li><a href="set-status.html">SET STATUS</a></li>
+
+            <li><a href="initialize-update.html">INITIALIZE UPDATE</a></li>
+            <li><a href="external-authenticate.html">EXTERNAL AUTHENTICATE</a></li>
+
+            <li><a href="begin-rmac.html">BEGIN R-MAC SESSION</a></li>
+            <li><a href="end-rmac.html">END R-MAC SESSION</a></li>
+
+            <li><a href="crs-getstatus.html">CRS-GET STATUS</a></li>
+            <li class="active"><a href="crs-setstatus.html">CRS-SET STATUS</a></li>
+
+            <li><a href="crs-select.html">CRS-SELECT</a></li>
+            <li><a href="crs-getdata.html">CRS-GET DATA</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <!--
+          <h1 class="page-header">GP APDU ORGNIZER!</h1>
+          -->
+
+          <h3 class="sub-header">CRS-SET STATUS COMMAND</h3>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Command Part</th>
+                  <th>Part Value[If the command part has multiple value to choose, support multiple-choice]</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr>
+                  <td>CLA</td>
+                  <td>80</td>
+                </tr>
+                <tr>
+                  <td>INS</td>
+                  <td>F0</td>
+                </tr>
+                <tr>
+                  <td>P1</td>
+                  <td>
+                     <label>[Status Type]</label><br>
+                     <input type="radio" name="set_status_p1" id="set_status_p1_state" value="01" checked> 01 [Availability State over the Contactless Interface] <br>
+                     <input type="radio" name="set_status_p1" id="" value="02"> 02 [Priority Order for Application Selection] <br>
+                     <input type="radio" name="set_status_p1" id="" value="04"> 04 [Communication Interface Access] <br>
+                     <input type="radio" name="set_status_p1" id="" value="08"> 08 [Contactless Protocol Type State] <br>
+                     <input type="radio" name="set_status_p1" id="" value="80"> 80 [Remaining Response Data] 
+                  </td>
+                </tr>
+                <tr>
+                  <td>P2</td>
+                  <td>
+                    <label>[State Control]</label><br>
+                    <div class="col-xs-5" id="cl_state">
+                      <label id="">Availability State over the Contactless Interface</label><br>
+                      <input type="radio" name="cl_state_value" id="" value="01" checked> 01 [ACTIVATED] <br>
+                      <input type="radio" name="cl_state_value" id="" value="00"> 00 [DEACTIVATED] <br>
+                      <input type="radio" name="cl_state_value" id="" value="80"> 80 [NON_ACTIVATABLE] <br>
+                    </div>
+                    <div class="col-xs-5" id="cl_order" style="display: none;">
+                      <label id="">Priority Order for Application Selection</label><br>
+                      <input type="radio" name="cl_order_value" id="" value="01" checked> 01 [Assign Highest Priority] <br>
+                      <input type="radio" name="cl_order_value" id="" value="81"> 81 [Assign Lowest Priority] <br>
+                      <input type="radio" name="cl_order_value" id="" value="02"> 02 [Assign Volatile Priority] <br>
+                      <input type="radio" name="cl_order_value" id="" value="82"> 82 [Reset Volatile Priority]
+                    </div>
+                    <div class="col-xs-5" id="cl_cia" style="display: none;">
+                      <label id="">Communication Interface Access</label><br>
+                      <input type="radio" name="cl_cia_value" id="" value="80" checked> 80 [Communication interface switched ON] <br>
+                      <input type="radio" name="cl_cia_value" id="" value="00"> 00 [Communication interface switched OFF]
+                    </div>
+                    <div class="col-xs-5" id="cl_pt_state" style="display: none;">
+                      <label id="">Contactless Protocol Type State</label><br>
+                      <input type="radio" name="cl_pt_state_value" id="" value="80" checked> 80 [Enable Contactless Protocol Type] <br>
+                      <input type="radio" name="cl_pt_state_value" id="" value="00"> 00 [Disable Contactless Protocol Type]
+                    </div>
+                    <div class="col-xs-5" id="cl_remain_response_data" style="display: none;">
+                      <label id="">Will be ignored, now set 00</label><br>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>LC</td>
+                  <td>
+                    <div class="col-xs-3">
+                      <input class="form-control" id="lcText" type="text" placeholder="automatic calculation" disabled>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Data Field</td>
+                  <td>
+                    <div class="col-xs-7" id="data_field_for_state_order">
+                      <label id="">AID of the target Application(AID can be more, now which only support one)</label><br>
+                      <input id="aidText" type="text" class="form-control" placeholder= "AID of the target Application">
+                    </div> 
+                    <div id="myAlert" class="col-xs-5" style="display: none; color:red">Warning:Application AID Length range is [5,16]!</div>
+                    <div class="col-xs-6" id="data_field_for_cia" style="display: none;">
+                      <label id="">Communication Interface Identifier</label><br>
+                      <input type="radio" name="ci_value" id="" value="80" checked> 80 [Contact-based communication (e.g. ISO/IEC 7816) is supported.] <br>
+                      <input type="radio" name="ci_value" id="" value="40"> 40 [Proximity- based communication (e.g. ISO/IEC 14443) is supported.]
+                    </div> 
+                    <div class="col-xs-6" id="data_field_for_pt_state" style="display: none;">
+                      <label id="">Contactless Protocol Type State</label><br>
+                      <input type="radio" name="pt_value" id="" value="41" checked> 41 [Contactless Protocol Type A RF Identifier] <br>
+                      <input type="radio" name="pt_value" id="" value="42"> 42 [Contactless Protocol Type B RF Identifier] <br>
+                      <input type="radio" name="pt_value" id="" value="44"> 44 [Contactless Protocol Type F RF Identifier]
+                    </div>
+                    <div class="col-xs-5" id="data_field_remain_response_data" style="display: none;">
+                      <label id="">No Data</label><br>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><button id="organise" type="button" class="btn btn-primary">Organise</button></td>
+                  <td>
+                    <div class="col-xs-8">
+                      <input id="apduText" type="text" class="form-control" placeholder="GENERATED SET STATUS APDU COMMAND">
+                    </div>
+                    <!--
+                    <div class="col-xs-3">
+                      <button id="copyclip" type="button" class="btn btn-info">Copyclip</button>
+                    </div>
+                    -->
+                  </td>
+                  
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>
+         
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../dist/js/jquery-1.11.1.js"></script>
+    <script src="../dist/js/bootstrap.min.js"></script>
+    <script src="../assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../dist/js/gp.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#set_status_p1_state").prop("checked",true); // for refresh show
+
+            $("#organise").click(function(){
+              $("#myAlert").hide();
+              $("#lcText").val("");
+
+              var p1 = $("input[name='set_status_p1']:checked").val();
+              var p2 = "";
+              var dataField = "";
+              switch (p1) {
+                case "01":
+                  p2 = $("input[name='cl_state_value']:checked").val();
+                  dataField = $.trim($("#aidText").val());
+                  if (dataField.length/2 < 5 || dataField.length/2 > 16) {
+                    $("#myAlert").show();
+                    return;
+                  }
+                  dataField = "4F" + numToHexString(dataField.length / 2) + dataField;
+                  break;
+                case "02":
+                  p2 = $("input[name='cl_order_value']:checked").val();
+                  dataField = $.trim($("#aidText").val());
+                  if (dataField.length/2 < 5 || dataField.length/2 > 16) {
+                    $("#myAlert").show();
+                    return;
+                  }
+                  dataField = "4F" + numToHexString(dataField.length / 2) + dataField;
+                  break;
+                case "04":
+                  p2 = $("input[name='cl_cia_value']:checked").val();
+                  dataField = "8001" + $("input[name='ci_value']:checked").val();
+                  break;
+                case "08":
+                  p2 = $("input[name='cl_pt_state_value']:checked").val();
+                  dataField = "8901" + $("input[name='pt_value']:checked").val();
+                  break;
+                case "80":
+                  p2 = "00";
+                  dataField = "";
+                  break;
+                default:
+                  break;
+              }
+
+              var lcHex = numToHexString(dataField.length / 2);
+              $("#lcText").val("0x" + lcHex);
+              $("#apduText").val("80F0" + p1 + p2 + lcHex + dataField);
+            });
+
+             // set custom data object structure by store_data_p1_bit54
+            $('input[name="set_status_p1"]').click(function(){
+              $("#cl_state").hide();
+              $("#cl_order").hide();
+              $("#cl_cia").hide();
+              $("#cl_pt_state").hide();
+              $("#cl_remain_response_data").hide();
+
+              $("#data_field_for_state_order").hide();
+              $("#data_field_for_state_order").hide();
+              $("#data_field_for_cia").hide();
+              $("#data_field_for_pt_state").hide();
+              $("#data_field_remain_response_data").hide();
+
+              if($(this).val() == "01"){ // Availability State over the Contactless Interface 
+               //$("input[name='set_status_p2']").removeAttr("checked");
+               //$("#selectable").prop("checked",true); // Card INITIALIZED
+               //$("#installed").prop("disabled", true);
+                $("#cl_state").show();
+                $("#data_field_for_state_order").show();
+              } else if($(this).val() == "02") { // Priority Order for Application Selection  
+                $("#cl_order").show();
+                $("#data_field_for_state_order").show();
+              } else if($(this).val() == "04") { // Communication Interface Access
+                $("#cl_cia").show();
+                $("#data_field_for_cia").show();
+              } else if($(this).val() == "08") { // Contactless Protocol Type State
+                $("#cl_pt_state").show();
+                $("#data_field_for_pt_state").show();
+              } else if($(this).val() == "80") { // Remaining Response Data 
+                $("#cl_remain_response_data").show();
+                $("#data_field_remain_response_data").show();
+              }
+            });
+
+        });
+
+
+    </script>
+  </body>
+</html>

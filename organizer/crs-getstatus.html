@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GPAOA">
+    <meta name="author" content="LionYJ">
+    <link rel="../icon" href="favicon.ico">
+
+    <title>GPAOA-GP APDU Organizer Analyst</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">GPAOA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="index_organizer.html">Organizer</a></li>
+            <li><a href="../index_analyst.html">Analyst</a></li>
+            <li><a href="../help.html">Help</a></li>
+          </ul>
+          <!--
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+          -->
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="index_organizer.html">Organise GP APDU<span class="sr-only">(current)</span></a></li>
+            <!--
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+            -->
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="select.html">SELECT</a></li>
+            <li><a href="manage-channel.html">MANAGE CHANNEL</a></li>
+
+            <li><a href="install.html">INSTALL</a></li>
+            <li><a href="load.html">LOAD</a></li>
+            <li><a href="delete.html">DELETE</a></li>
+            <li><a href="put-key.html">PUT KEY</a></li>
+        
+            <li><a href="get-data.html">GET DATA</a></li>
+            <li><a href="store-data.html">STORE DATA</a></li>
+          
+            <li><a href="get-status.html">GET STATUS</a></li>
+            <li><a href="set-status.html">SET STATUS</a></li>
+
+            <li><a href="initialize-update.html">INITIALIZE UPDATE</a></li>
+            <li><a href="external-authenticate.html">EXTERNAL AUTHENTICATE</a></li>
+
+            <li><a href="begin-rmac.html">BEGIN R-MAC SESSION</a></li>
+            <li><a href="end-rmac.html">END R-MAC SESSION</a></li>
+
+            <li class="active"><a href="crs-getstatus.html">CRS-GET STATUS</a></li>
+            <li><a href="crs-setstatus.html">CRS-SET STATUS</a></li>
+
+            <li><a href="crs-select.html">CRS-SELECT</a></li>
+            <li><a href="crs-getdata.html">CRS-GET DATA</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <!--
+          <h1 class="page-header">GP APDU ORGNIZER!</h1>
+          -->
+
+          <h3 class="sub-header">CRS-GET STATUS COMMAND</h3>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Command Part</th>
+                  <th>Part Value[If the command part has multiple value to choose, support multiple-choice]</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr>
+                  <td>CLA</td>
+                  <td>80</td>
+                </tr>
+                <tr>
+                  <td>INS</td>
+                  <td>F2</td>
+                </tr>
+                <tr>
+                  <td>P1</td>
+                  <td>
+                    <input type="radio" name="get_status_p1" id="get_status_app" value="40" checked> 40 [Applications]  &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="get_status_p1" id="get_status_open" value="04"> 04 [OPEN]
+                    <br>
+                  </td>
+                </tr>
+                <tr>
+                  <td>P2</td>
+                  <td>
+                    <label>bit1 [Get first/all or next occurrence(s)]</label><br>
+                    <input type="radio" name="get_status_p2_bit1" id="" value="00" checked> 0 [Get first or all occurrence(s)] &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="get_status_p2_bit1" id="" value="01"> 1 [Get next occurrence(s)]
+                  </td>
+                </tr>
+                <tr>
+                  <td>LC</td>
+                  <td>
+                    <div class="col-xs-3">
+                      <input class="form-control" id="lcText" type="text" placeholder="automatic calculation" disabled>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Data Field</td>
+                  <td>
+                    <div class="col-xs-5">
+                      <input type="radio" name="get_status_data" id="all" value="00" checked> Search All
+                      <input id="allText" type="text" class="form-control" placeholder="" value="4F00" disabled>
+                    </div>
+                    <!--<div id="myAlert" class="col-xs-3" style="display: none; color:red">AID Length Error!</div>-->
+                    <div class="col-xs-5">
+                      <input type="radio" name="get_status_data" id="aid" value="01"> Search Application AID  
+                      <input id="aidText" type="text" class="form-control" placeholder="Application AID">
+                    </div> 
+                    <div id="myAlert1" class="col-xs-3" style="display: none; color:red">AID Length Error!</div>
+                    <div class="col-xs-10">
+                      <input type="radio" name="" id="" value="01" checked> Other Search Criteria  
+                      <input id="other_search_criteria" type="text" class="form-control" placeholder="Other Search Criteria(TLV)">
+                    </div> 
+                    <div id="myAlert2" class="col-xs-3" style="display: none; color:red">Length Error!</div>
+                    <div class="col-xs-10">
+                      <label>Filter Criteria: Tag List (Tag '5C') [GP Amend C for CRS Data Field]</label> <br>
+                      <div id="applicationSC" class="col-xs-10">
+                        <input type="checkbox" name="fc" id="" value="4F"> [4F]AID&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="9F70"> [9F70]Application Life Cycle State&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="7F20"> [7F20]Display Control Template&nbsp;&nbsp;&nbsp;&nbsp; <br>
+                        <input type="checkbox" name="fc" id="" value="5F50"> [5F50]Uniform Resource Locator&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="6D"> [6D]Application Image Template&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="5F45"> [5F45]Display Message&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+                        <input type="checkbox" name="fc" id="" value="80"> [80]Application Update Counter (big endian)&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="81"> [81]Selection Priority &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="A2"> [A2]Application Group Head &nbsp;&nbsp;&nbsp;&nbsp; <br>
+                        <input type="checkbox" name="fc" id="" value="A3"> [A3]Application Group  Members &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="A4"> [A4]CREL Application AID List&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="A5"> [A5]Policy Restricted Applications&nbsp;&nbsp;&nbsp;&nbsp; <br>
+                        <input type="checkbox" name="fc" id="" value="A6"> [A6]Application discretionary data&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="87"> [87]Application Family &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="88"> [88]Display Required Indicator  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        <input type="checkbox" name="fc" id="" value="8C"> [8C]Assigned Protocols for Implicit Selection&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="8A"> [8A]Continuous Processing&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="8B"> [8B]Recognition Algorithm for Implicit Selection&nbsp;&nbsp;&nbsp;&nbsp;
+                        <br>
+                        <input type="checkbox" name="fc" id="" value="8D"> [8D]Protocol Data Type A (Card Emulation Mode)&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="8E"> [8E]Protocol Data Type B (Card Emulation Mode)&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="fc" id="" value="93"> [93]Protocol Data Type F (Card Emulation Mode)&nbsp;&nbsp;&nbsp;&nbsp;
+                      </div>
+
+                      <div id="openSC" class="col-xs-10">
+                        <input type="checkbox" name="open_fc" id="" value="89"> [89]Contactless Protocol Type State &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="open_fc" id="" value="95"> [95]Communication Interface Access &nbsp;&nbsp;&nbsp;&nbsp;
+                      </div>
+                    </div> 
+                  </td>
+                </tr>
+                <tr>
+                  <td><button id="organise" type="button" class="btn btn-primary">Organise</button></td>
+                  <td>
+                    <div class="col-xs-10">
+                      <input id="apduText" type="text" class="form-control" placeholder="GENERATED GET STATUS APDU COMMAND">
+                    </div>
+                    <!--
+                    <div class="col-xs-3">
+                      <button id="copyclip" type="button" class="btn btn-info">Copyclip</button>
+                    </div>
+                    -->
+                  </td>
+                  
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>
+         
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../dist/js/jquery-1.11.1.js"></script>
+    <script src="../dist/js/bootstrap.min.js"></script>
+    <script src="../assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../dist/js/gp.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#get_status_app").prop("checked",true); // default get_status for application
+            $("#openSC").hide();
+            $("#applicationSC").show();
+
+            $("#organise").click(function(){
+              //$("#myAlert").hide();
+              $("#myAlert1").hide();
+              $("#myAlert2").hide();
+              $("#lcText").val("");
+
+              var p1 = $("input[name='get_status_p1']:checked").val();
+              var p2_bit1 = $("input[name='get_status_p2_bit1']:checked").val();
+              var p2_bit2 = $("input[name='get_status_p2_bit2']:checked").val();
+
+              var p2 = numToHexString((parseInt("0x" + p2_bit1) | parseInt("0x" + p2_bit2)));
+
+              var search_type = $.trim($("input[name='get_status_data']:checked").val());
+              var allChecked = (search_type == "00");
+              var aid_field = $.trim($("#aidText").val());
+              if ((allChecked == false) && (aid_field.length == "" || aid_field.length/2 < 5 || aid_field.length/2 > 16)) {
+                $("#myAlert1").show();
+                return;
+              }
+
+              var data_field = "";
+              if (allChecked == true) {
+                data_field = $.trim($("#allText").val());
+              } else {
+                 data_field = aid_field;
+              }
+
+              var otherSerachCriteria = $.trim($("#other_search_criteria").val());
+              if (otherSerachCriteria != "") {
+                if (otherSerachCriteria.length %2 != 0) {
+                  $("#myAlert2").show();
+                  return;
+                }
+              }
+
+              var fcData = "";
+              if (p1 == "40") {
+                  $('input[name="fc"]:checked').each(function() {
+                      var fcTag = $(this).val();
+                      fcData += fcTag;
+                  });
+                  fcData = (fcData == "") ? "" : ("5C" + numToHexString(fcData.length / 2) + fcData);
+              } else {
+                  $('input[name="open_fc"]:checked').each(function() {
+                      var fcTag = $(this).val();
+                      fcData += fcTag;
+                  });
+                  fcData = (fcData == "") ? "" : ("5C" + numToHexString(fcData.length / 2) + fcData);
+              }
+
+              var lcData = (allChecked == true) ? data_field : ("4F" + numToHexString(data_field.length / 2) + data_field);
+              lcData += otherSerachCriteria + fcData;
+              var lcHex = numToHexString(lcData.length / 2);
+              $("#lcText").val("0x" + lcHex);
+              $("#apduText").val("80F2" + p1 + p2 + lcHex + lcData);
+            });
+
+            // Change Data Field View
+            $('input[name="get_status_p1"]').click(function(){
+                if($(this).val() == "40") {
+                  // 40: Applications
+                  
+                  $("#openSC").hide();
+                  $("#applicationSC").show();
+                } else {
+                  // 04:OPEN
+                  $("#applicationSC").hide();
+                  $("#openSC").show();
+                }
+
+                $("#apduText").val("");
+            });
+
+        });
+
+
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GPAOA">
+    <meta name="author" content="LionYJ">
+    <link rel="../icon" href="favicon.ico">
+
+    <title>GPAOA-GP APDU Organizer Analyst</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">GPAOA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="index_organizer.html">Organizer</a></li>
+            <li><a href="../index_analyst.html">Analyst</a></li>
+            <li><a href="../help.html">Help</a></li>
+          </ul>
+          <!--
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+          -->
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="index_organizer.html">Organise GP APDU<span class="sr-only">(current)</span></a></li>
+            <!--
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+            -->
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="select.html">SELECT</a></li>
+            <li><a href="manage-channel.html">MANAGE CHANNEL</a></li>
+
+            <li class="active"><a href="install.html">INSTALL</a></li>
+            <li><a href="load.html">LOAD</a></li>
+            <li><a href="delete.html">DELETE</a></li>
+            <li><a href="put-key.html">PUT KEY</a></li>
+        
+            <li><a href="get-data.html">GET DATA</a></li>
+            <li><a href="store-data.html">STORE DATA</a></li>
+          
+            <li><a href="get-status.html">GET STATUS</a></li>
+            <li><a href="set-status.html">SET STATUS</a></li>
+
+            <li><a href="initialize-update.html">INITIALIZE UPDATE</a></li>
+            <li><a href="external-authenticate.html">EXTERNAL AUTHENTICATE</a></li>
+
+            <li><a href="begin-rmac.html">BEGIN R-MAC SESSION</a></li>
+            <li><a href="end-rmac.html">END R-MAC SESSION</a></li>
+
+            <li><a href="crs-getstatus.html">CRS-GET STATUS</a></li>
+            <li><a href="crs-setstatus.html">CRS-SET STATUS</a></li>
+
+            <li><a href="crs-select.html">CRS-SELECT</a></li>
+            <li><a href="crs-getdata.html">CRS-GET DATA</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <!--
+          <h1 class="page-header">GP APDU ORGNIZER!</h1>
+          -->
+
+          <h3 class="sub-header">INSTALL COMMAND</h3>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Command Part</th>
+                  <th>Part Value[If the command part has multiple value to choose, support multiple-choice]</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr>
+                  <td>CLA</td>
+                  <td>80</td>
+                </tr>
+                <tr>
+                  <td>INS</td>
+                  <td>E6</td>
+                </tr>
+                <tr>
+                  <td>P1</td>
+                  <td>
+                    <label>Bit8-Last (or only)/More INSTALL command</label><br>
+                    <input type="radio" name="install_p1" id="last_command" value="00" checked> 00 [Last (or only) command]&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="install_p1" id="more_command" value="80"> 80 [More INSTALL commands] <br>
+                    <label>Bit7~1-Install Type</label><br>
+                    <input type="radio" name="install_type" id="type_for_load" value="02" checked> 02 [For load] &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="install_type" id="type_for_load_install_make_selectable_first" value="0E-first"> 0E First combined Install[For load,install and make selectable] &nbsp;&nbsp;&nbsp;&nbsp;<br>
+
+                    <input type="radio" name="install_type" id="type_for_install" value="04"> 04 [For install] &nbsp;&nbsp;
+                    <input type="radio" name="install_type" id="type_for_install" value="0C"> 0C [For install & make selectable] &nbsp;&nbsp;
+                    <input type="radio" name="install_type" id="type_for_load_install_make_selectable_final" value="0E-final"> 0E Final combined Install[For load,install and make selectable] &nbsp;&nbsp;&nbsp;&nbsp;<br>
+
+                    <input type="radio" name="install_type" id="type_for_make_selectable" value="08"> 08 [For make selectable] &nbsp;&nbsp;&nbsp;&nbsp; <br>
+
+                    <input type="radio" name="install_type" id="type_for_extradition" value="10"> 10 [For extradition] &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="install_type" id="type_for_personalization" value="20"> 20 [For personalization] &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="install_type" id="type_for_registry_update" value="40"> 40 [For registry update] &nbsp;&nbsp;&nbsp;&nbsp;
+                  </td>
+                </tr>
+                <tr>
+                  <td>P2</td>
+                  <td>
+                    <input type="radio" name="install_p2" id="p2_no_info" value="00" checked> 00 [No information] <br>
+                    <input type="radio" name="install_p2" id="p2_begin_process" value="01"> 01 [Beginning of the combined Load, Install and Make Selectable process] <br>
+                    <input type="radio" name="install_p2" id="p2_end_process" value="03"> 03 [End of the combined Load, Install and Make Selectable process] 
+                  </td>
+                </tr>
+                <tr>
+                  <td>LC</td>
+                  <td>
+                    <div class="col-xs-3">
+                      <input class="form-control" id="lcText" type="text" placeholder="automatic calculation" disabled>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Data Field</td>
+                  <td>
+                    <!-- install data field -->
+                    <div class="col-xs-12" id="install_data_field">
+                      <div class="col-xs-4">
+                        <label id="data_field_lv1_lab">Load File AID</label><br>
+                        <input id="data_field_lv1" type="text" class="form-control" placeholder="">
+                      </div>
+                      <div class="col-xs-4">
+                        <label id="data_field_lv2_lab">Security Domain AID</label><br>
+                        <input id="data_field_lv2" type="text" class="form-control" placeholder="">
+                      </div>
+                      <div class="col-xs-4">
+                        <label id="data_field_lv3_lab">Load File Data Block Hash</label><br>
+                        <input id="data_field_lv3" type="text" class="form-control" placeholder="">
+                      </div>
+                      <div class="col-xs-12" id="data_field_app_privilege" style="display: none;">
+                        <label>Privileges</label><br>
+                        <!-- 1st byte from bit8-bit1 -->
+                        <label>1st byte from bit8-bit1</label><br>
+                        <input type="checkbox" name="app_privilege1" id="privilege_sd" value="80"> 80 [Security Domain] &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="app_privilege1" id="privilege_dap" value="C0"> C0 [DAP Verification] &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege1" id="privilege_dm" value="A0"> A0 [Delegated Management] &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege1" id="privilege_card_lock" value="10"> 10 [Card Lock] &nbsp;&nbsp;&nbsp;&nbsp; <br>
+                        <input type="checkbox" name="app_privilege1" id="privilege_card_terminate" value="08"> 08 [Card Terminate] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="app_privilege1" id="privilege_card_reset" value="04"> 04 [Card Reset] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege1" id="privilege_cvm" value="02"> 02 [CVM Management] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                        <input type="checkbox" name="app_privilege1" id="privilege_m_dap" value="C1"> C1 [Mandated DAP Verification] &nbsp;&nbsp;&nbsp;&nbsp; <br>
+
+                        <!-- 2nd byte from bit8-bit1 -->
+                        <label>2nd byte from bit8-bit1</label><br>
+                        <input type="checkbox" name="app_privilege2" id="privilege_trusted_path" value="80"> 80 [Trusted Path] &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege2" id="privilege_am" value="40"> 40 [Authorized Management] &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege2" id="privilege_token_management" value="20"> 20 [Token Management] &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege2" id="privilege_g_delete" value="10"> 10 [Global Delete] &nbsp;&nbsp;&nbsp;&nbsp; <br>
+                        <input type="checkbox" name="app_privilege2" id="privilege_g_lock" value="08"> 08 [Global Lock] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege2" id="privilege_g_registry" value="04"> 04 [Global Registry] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege2" id="privilege_final_application" value="02"> 02 [Final Application] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="app_privilege2" id="privilege_g_service" value="01"> 01 [Global Service] &nbsp;&nbsp;&nbsp;&nbsp; <br>
+
+                        <!-- 3rd byte from bit8-bit4 -->
+                        <label>3rd byte from bit8-bit4</label><br>
+                        <input type="checkbox" name="app_privilege3" id="privilege_receipt_generation" value="80"> 80 [Receipt Generation] &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="app_privilege3" id="privilege_cipherd_lf_block" value="40"> 40 [Ciphered Load File Data Block] &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege3" id="privilege_cl_activation" value="20"> 20 [Contactless Activation] &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <input type="checkbox" name="app_privilege3" id="privilege_cl_self_activiation" value="10"> 10 [Contactless Self-Activation] &nbsp;&nbsp;&nbsp;&nbsp; 
+                        
+                      </div>
+
+                      <div class="col-xs-12" id="install_data_field_parameter">
+                        <br>
+                        <label id="data_field_parameter_lab">Load Parameters</label><br>  
+                          <div class="col-xs-12" id ="system_c9">
+                            <label id="data_field_application_parameter_lab">C9:Application Specific Parameters</label><br>
+                            <input id="data_c9" type="text" class="form-control" placeholder="">
+                          </div>
+
+                          <div class="col-xs-12">
+                            <label id="data_field_system_parameter_lab">EF:System Specific Parameters</label><br>
+                            <div class="col-xs-3" id="system_c6">
+                              <label id="">C6:Non volatile code  Minimum Memory requirement</label><br>
+                              <input id="data_c6" type="text" class="form-control" placeholder="">
+                            </div>
+                            
+                            <div class="col-xs-3" id="system_c7">
+                              <label id="">C7:Volatile data Minimum Memory requirement</label><br>
+                              <input id="data_c7" type="text" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="col-xs-3" id="system_c8">
+                              <label id="">C8:Non volatile data Minimum Memory requirement</label><br>
+                              <input id="data_c8" type="text" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="col-xs-3" id="system_cd">
+                              <label id="">CD:Load File Data Block format id</label><br>
+                              <input id="data_cd" type="text" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="col-xs-3" id="system_dd">
+                              <label id="">DD:Load File Data Block Parameters</label><br>
+                              <input id="data_dd" type="text" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="col-xs-3" id="system_cb" style="display: none;">
+                              <label id="">CB:Global Service Parameters&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                              <input id="data_cb" type="text" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="col-xs-3" id="system_d7" style="display: none;">
+                              <label id="">D7:Volatile Reserved Memory&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                              <input id="data_d7" type="text" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="col-xs-3" id="system_d8" style="display: none;">
+                              <label id="">D8:Non volatile Reserved Memory&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                              <input id="data_d8" type="text" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="col-xs-3" id="system_ca" style="display: none;">
+                              <label id="">CA:TS 102 226 specific parameter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                              <input id="data_ca" type="text" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="col-xs-3" id="system_cf" style="display: none;">
+                              <label id="">CF:Implicit selection parameter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                              <input id="data_cf" type="text" class="form-control" placeholder="">
+                            </div>
+
+                            <div class="col-xs-10" id="system_d9" style="display: none;">
+                              <label id="">D9:Restrict Parameter</label><br>
+                              <input name="data_d9" type="checkbox" value="40" placeholder=""> 40 [Registry Update] &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input name="data_d9" type="checkbox" value="20" placeholder=""> 20 [Personalization] &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input name="data_d9" type="checkbox" value="10" placeholder=""> 10 [Extradition] &nbsp;&nbsp;&nbsp;&nbsp;
+                              <br>
+                              <input name="data_d9" type="checkbox" value="08" placeholder=""> 08 [Make selectable] &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input name="data_d9" type="checkbox" value="04" placeholder=""> 04 [Install] &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input name="data_d9" type="checkbox" value="02" placeholder=""> 02 [Load] &nbsp;&nbsp;&nbsp;&nbsp;
+                              <input name="data_d9" type="checkbox" value="01" placeholder=""> 01 [Delete] &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+
+                            <div class="col-xs-12" id="system_amendc" style="display: none;">
+                              <label id="">Amend C-Contactless Specific Parameters:</label><br>
+                              <label id="">A0:Contactless Protocol Parameters &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                              <div class="col-xs-6" id="system_cl_a0_80">
+                                <label id="">80:Assigned Protocols for implicit selection</label><br>
+                                <input name="data_cl_a0_80" type="checkbox" value="81"> 81 [Type A] &nbsp;&nbsp;
+                                <input name="data_cl_a0_80" type="checkbox" value="82"> 82 [Type B] &nbsp;&nbsp;
+                                <input name="data_cl_a0_80" type="checkbox" value="84"> 84 [Type F] &nbsp;&nbsp;
+                              </div>
+                              <div class="col-xs-6" id="system_cl_a0_81">
+                                <label id="">81:Initial Contactless Activation State</label><br>
+                                <input name="data_cl_a0_81" type="radio" value="00"> 00 [Not activate] &nbsp;&nbsp;
+                                <input name="data_cl_a0_81" type="radio" value="01" checked> 01 [activate] &nbsp;&nbsp;
+                              </div>
+                              <div class="col-xs-12" id="system_cl_a0_a2">
+                                <label id="">A2:Contactless Protocol Parameters Profile</label><br>
+                                <input id="data_a0_a2" type="text" class="form-control" placeholder="">
+                              </div>
+                              <div class="col-xs-8" id="system_cl_a0_83">
+                                <label id="">83:Recognition Algorithm[String:'01'+Offset(2 bytes)+Pattern(X bytes);
+                                &nbsp;&nbsp;&nbsp;&nbsp;Bitmap:'02'+Reference Data(X bytes)+Mask(X bytes)]</label><br>
+                                <input id="data_a0_83" type="text" class="form-control" placeholder="">
+                              </div>
+                              <div class="col-xs-4" id="system_cl_a0_84">
+                                <label id="">84:Continuous Processing[Open(2byte), Application(1Byte,01:disabled;02:enabled)]</label><br>
+                                <input id="data_a0_84" type="text" class="form-control" placeholder="">
+                              </div>
+                              <div class="col-xs-12" id="system_cl_a0_a5">
+                                <label id="">A5:Communication Interface Access Parameters</label><br>
+                                <label id="">&nbsp;&nbsp;&nbsp;&nbsp;80:CIA Restriction&nbsp;&nbsp;</label>
+                                 <input name="data_cl_a0_a5_80" type="checkbox" value="80"> 80 [Contact-based supported] &nbsp;&nbsp;
+                                 <input name="data_cl_a0_a5_80" type="checkbox" value="40"> 40 [Proximity-based supported] &nbsp;&nbsp;
+                                 <br>
+                                 <label id="">&nbsp;&nbsp;&nbsp;&nbsp;81:CIA Default&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                 <input name="data_cl_a0_a5_81" type="checkbox" value="80"> 80 [Contact-based supported] &nbsp;&nbsp;
+                                 <input name="data_cl_a0_a5_81" type="checkbox" value="40"> 40 [Proximity-based supported] &nbsp;&nbsp;
+                                 <br>
+                                 <label id="">&nbsp;&nbsp;&nbsp;&nbsp;82:CIA per Instance</label>
+                                 <input name="data_cl_a0_a5_82" type="checkbox" value="80"> 80 [Contact-based supported] &nbsp;&nbsp;
+                                 <input name="data_cl_a0_a5_82" type="checkbox" value="40"> 40 [Proximity-based supported] &nbsp;&nbsp;
+                              </div>
+                              <div class="col-xs-10" id="system_cl_a0_86">
+                                <label id="">86:Protocol Data Type A (Card Emulation Mode)</label><br>
+                                <input id="data_a0_86" type="text" class="form-control" placeholder="">
+                              </div>
+                              <div class="col-xs-10" id="system_cl_a0_87">
+                                <label id="">87:Protocol Data Type B (Card Emulation Mode)</label><br>
+                                <input id="data_a0_87" type="text" class="form-control" placeholder="">
+                              </div>
+                              <div class="col-xs-10" id="system_cl_a0_88">
+                                <label id="">88:Protocol Data Type F (ard Emulation Mode)</label><br>
+                                <input id="data_a0_88" type="text" class="form-control" placeholder="">
+                              </div>
+
+                              
+                              <label id="">A1:User Interaction Parameters &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                              <div class="col-xs-12" id="system_a1">
+                                <div class="col-xs-10" id="system_cl_a1_7f20">
+                                  <label id="">7F20:Display Control Template</label><br>
+                                  <input id="data_a1_7f20" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-3" id="system_cl_a1_a0">
+                                  <label id="">A0:Head Application</label><br>
+                                  <input id="data_a1_a0" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-4" id="system_cl_a1_a1">
+                                  <label id="">A1:Add to the Group Authorization List</label><br>
+                                  <input id="data_a1_a1" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-5" id="system_cl_a1_a2">
+                                  <label id="">A2:Remove from the Group Authorization List</label><br>
+                                  <input id="data_a1_a2" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-3" id="system_cl_a1_a3">
+                                  <label id="">A3:Add to the CREL List</label><br>
+                                  <input id="data_a1_a3" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-4" id="system_cl_a1_a4">
+                                  <label id="">A4:Remove from the CREL List</label><br>
+                                  <input id="data_a1_a4" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-5" id="system_cl_a1_a5">
+                                  <label id="">A5:Policy Restricted Applications</label><br>
+                                  <input id="data_a1_a5" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-3" id="system_cl_a1_a6">
+                                  <label id="">A6:App discretionary data</label><br>
+                                  <input id="data_a1_a6" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-4" id="system_cl_a1_87">
+                                  <label id="">87:Application Family</label><br>
+                                  <input id="data_a1_87" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-5" id="system_cl_a1_88">
+                                  <label id="">88:Display Required Indicator</label><br>
+                                  <input name="data_cl_a1_88" type="radio" value="00"> 00 [Display] &nbsp;&nbsp;
+                                  <input name="data_cl_a1_88" type="radio" value="01" checked> 01 [Not display] &nbsp;&nbsp;
+                                </div>
+
+                              </div>
+
+                              <label id="">B0:Additional Contactless Parameters,Optional Data: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reader mode protocol data TypeA TLV[8601+DATARATE_MAX]<br>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reader mode protocol data TypeB TLV[87+(2+L)+(AFI+HIGHER_LAYER_DATA_LV)]
+                              </label><br>
+                              <div class="col-xs-10" id="system_b0">
+                                <input id="data_cl_b0" type="text" class="form-control" placeholder="">
+                              </div>
+
+                              <label id="">82:Cumulative Granted Volatile Memory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                              <div class="col-xs-4" id="system_82">
+                                <input id="data_cl_82" type="text" class="form-control" placeholder="">
+                              </div>
+                              <br><br>
+                              <label id="">83:Cumulative Granted Non Volatile Memory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+                              <div class="col-xs-4" id="system_83">
+                                <input id="data_cl_83" type="text" class="form-control" placeholder="">
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div class="col-xs-12" id="system_ea" style="display: none;">
+                            <label id="data_field_crt_for_ds_parameter_lab">EA:UICC System Specific Parameters[ETSI 102226]</label>
+                            <input id="data_ea" type="text" class="form-control" placeholder="">
+                          </div>
+                          
+                          <div class="col-xs-12">
+                            <label id="data_field_crt_for_ds_parameter_lab">B6:Control Reference Template for Digital Signature (Token)</label>
+                            <br>
+                            <div class="col-xs-5">
+                              <label id="">42:Identification Number of the Security Domain with the Token Verification privilege</label><br>
+                              <input id="data_42" type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-xs-5">
+                              <label id="">45:Image Number of the Security Domain with the Token Verification privilege</label><br>
+                              <input id="data_45" type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-xs-5">
+                              <label id="">5F20:Application Provider identifier</label><br>
+                              <input id="data_5f20" type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-xs-5">
+                              <label id="">93:Token identifier/number(digital signature counter)</label><br>
+                              <input id="data_93" type="text" class="form-control" placeholder="">
+                            </div>
+                          </div>
+                             
+                        
+                      </div>
+
+                      <div class="col-xs-4">
+                        <br>
+                        <label id="data_field_token_lab">Load Token</label><br>
+                        <input id="data_field_token" type="text" value="00" class="form-control" placeholder="" disabled>
+                      </div>
+                      
+                    </div>
+                    <div id="myAlert" class="col-xs-3" style="display: none; color:red">Length Error!</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><button id="organise" type="button" class="btn btn-primary">Organise</button></td>
+                  <td>
+                    <div class="col-xs-12">
+                      <input id="apduText" type="text" class="form-control" placeholder="GENERATED INSTALL APDU COMMAND">
+                    </div>
+                    <!--
+                    <div class="col-xs-3">
+                      <button id="copyclip" type="button" class="btn btn-info">Copyclip</button>
+                    </div>
+                    -->
+                  </td>
+                  
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>
+         
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../dist/js/jquery-1.11.1.js"></script>
+    <script src="../dist/js/bootstrap.min.js"></script>
+    <script src="../assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../dist/js/gp.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#type_for_load").prop("checked",true); // default install_for_load
+            $("#data_field_lv1").val("");
+            $("#data_field_lv1").prop("disabled", false);
+
+            $("#data_field_lv2").val("");
+            $("#data_field_lv2").prop("disabled", false);
+
+            $("#data_field_lv3").val("");
+            $("#data_field_lv3").prop("disabled", false);
+            $("#data_field_token").val("00");
+
+            $("#system_c9").hide();
+            $("#system_amendc").hide();
+            $("#lcText").val("");
+            $("#apduText").val("");
+
+            $("#organise").click(function(){
+              $("#myAlert").hide();
+              $("#lcText").val("");
+
+              var p1 = $("input[name='install_p1']:checked").val();
+              var p1Type = $("input[name='install_type']:checked").val();
+              var newP1Type = ((p1Type == "0E-first") || (p1Type == "0E-final")) ? "0E" : p1Type;
+              p1 = numToHexString(parseInt("0x" + p1) | parseInt("0x" + newP1Type));
+
+              var p2 = $("input[name='install_p2']:checked").val();
+
+              var lcData = organiseDataField(p1Type);
+              var lc = lcData.length / 2;
+              var lcHex = numToHexString(lc);
+              $("#lcText").val("0x" + lcHex);
+              $("#apduText").val("80E6" + p1 + p2 + lcHex + lcData);
+            });
+
+            function organiseDataField(installType) {
+              var lcData = organiseThreeLVAndPrivilege(installType);
+              lcData += organiseParameters(installType);
+              lcData += organiseTokenLV(installType);
+              return lcData;
+            }
+
+            function organiseThreeLVAndPrivilege(installType) {
+              var organiseData = "";
+
+              var data_field_lv1 = $.trim($("#data_field_lv1").val());
+              var data_field_lv2 = $.trim($("#data_field_lv2").val());
+              var data_field_lv3 = $.trim($("#data_field_lv3").val());
+
+              // only check length not null and %2=0, not check length range.
+              if (checkLengthError(data_field_lv1)) {
+                $("#data_field_lv1").focus().select();
+                return "";
+              }
+              if (checkLengthError(data_field_lv2)) {
+                 $("#data_field_lv2").focus().select();
+                return "";
+              }
+              if (checkLengthError(data_field_lv3)) {
+                 $("#data_field_lv3").focus().select();
+                return "";
+              }
+
+              var privilege1 = 0;
+              var privilege2 = 0;
+              var privilege3 = 0;
+              $("input[name='app_privilege1']:checked").each(function() {
+                  privilege1 |= parseInt("0x" + $(this).val());
+              });
+              privilege1 = numToHexString(privilege1);
+
+              $("input[name='app_privilege2']:checked").each(function() {
+                  privilege2 |= parseInt("0x" + $(this).val());
+              });
+              privilege2 = numToHexString(privilege2);
+
+              $("input[name='app_privilege3']:checked").each(function() {
+                  privilege3 |= parseInt("0x" + $(this).val());
+              });
+              privilege3 = numToHexString(privilege3);
+
+              var privileges = "";
+              switch (installType) {
+                case "04": // for install
+                case "0C":
+                case "0E-final":
+                  privileges += privilege1 + privilege2 + privilege3;
+                case "02": // for load
+                case "0E-first":
+                  // AID_LV + AID_LV + LV
+                  var data_field_lv1_length_hex = numToHexString(data_field_lv1.length / 2);
+                  organiseData += data_field_lv1_length_hex + data_field_lv1;
+
+                  var data_field_lv2_length_hex = numToHexString(data_field_lv2.length / 2);
+                  organiseData += data_field_lv2_length_hex + data_field_lv2;
+
+                  var data_field_lv3_length_hex = numToHexString(data_field_lv3.length / 2);
+                  organiseData += data_field_lv3_length_hex + data_field_lv3;
+                break;
+
+                case "08": // for make selectable
+                  privileges += privilege1 + privilege2 + privilege3;
+                case "20": // for personalization
+                  // 00 + 00 + AID_LV
+                  var data_field_lv3_length_hex = numToHexString(data_field_lv3.length / 2);
+                  organiseData += data_field_lv1 + data_field_lv2 + data_field_lv3_length_hex + data_field_lv3;
+                break;
+
+                case "40": // for registry update
+                  privileges += privilege1 + privilege2 + privilege3;
+                case "10": // for extradition
+                  // AID_LV + 00 + AID_LV
+                  var data_field_lv1_length_hex = numToHexString(data_field_lv1.length / 2);
+                  var data_field_lv3_length_hex = numToHexString(data_field_lv3.length / 2);
+                  organiseData += data_field_lv1_length_hex + data_field_lv1 + "00" + data_field_lv3_length_hex + data_field_lv3;
+                break;
+
+                default:
+                break;
+              }
+
+              // Privilege_LV
+              organiseData = (privileges != "") ? (organiseData + numToHexString(privileges.length / 2) + privileges) : organiseData;
+
+              return organiseData;
+            }
+
+            function organiseParameters(installType) {
+              var parameterData = "";
+              var data_ef = "";
+
+              switch (installType) {
+                case "02":
+                case "0E-first":
+                  // EF:System Specific Parameters
+                  // C6/C7/C8/CD/DD
+                  var data_c6 = $.trim($("#data_c6").val());
+                  var data_c7 = $.trim($("#data_c7").val());
+                  var data_c8 = $.trim($("#data_c8").val());
+                  var data_cd = $.trim($("#data_cd").val());
+                  var data_dd = $.trim($("#data_dd").val());
+                  if (data_c6 != "") {
+                    data_ef += "C6" + numToHexString(data_c6.length / 2) + data_c6;
+                  }
+                  if (data_c7 != "") {
+                    data_ef += "C7" + numToHexString(data_c7.length / 2) + data_c7;
+                  }
+                  if (data_c8 != "") {
+                    data_ef += "C8" + numToHexString(data_c8.length / 2) + data_c8;
+                  }
+                  if (data_cd != "") {
+                    data_ef += "CD" + numToHexString(data_cd.length / 2) + data_cd;
+                  }
+                  if (data_c6 != "") {
+                    data_ef += "DD" + numToHexString(data_dd.length / 2) + data_dd;
+                  }
+                  parameterData += "EF" + numToHexString(data_ef.length / 2) + data_ef;
+                break;
+
+                case "04":
+                case "0C":
+                case "0E-final":
+                  // C9:Application Specific Parameters
+                  var data_c9 = $.trim($("#data_c9").val());
+                  if (checkLengthError(data_c9)) {
+                    $("#data_c9").focus().select();
+                    return;
+                  }
+                  parameterData += "C9" + numToHexString(data_c9.length / 2) + data_c9;
+
+                  // EF:System Specific Parameters
+                  // C7/C8/CB/D7/D8/CA/CF
+                  var data_c7 = $.trim($("#data_c7").val());
+                  var data_c8 = $.trim($("#data_c8").val());
+                  var data_cb = $.trim($("#data_cb").val());
+                  var data_d7 = $.trim($("#data_d7").val());
+                  var data_d8 = $.trim($("#data_d8").val());
+                  var data_ca = $.trim($("#data_ca").val());
+                  var data_cf = $.trim($("#data_cf").val());
+                  if (data_c7 != "") {
+                    data_ef += "C7" + numToHexString(data_c7.length / 2) + data_c7;
+                  }
+                  if (data_c8 != "") {
+                    data_ef += "C8" + numToHexString(data_c8.length / 2) + data_c8;
+                  }
+                  if (data_cb != "") {
+                    data_ef += "CB" + numToHexString(data_cb.length / 2) + data_cb;
+                  }
+                  if (data_d7 != "") {
+                    data_ef += "D7" + numToHexString(data_d7.length / 2) + data_d7;
+                  }
+                  if (data_d8 != "") {
+                    data_ef += "D8" + numToHexString(data_d8.length / 2) + data_d8;
+                  }
+                  if (data_ca != "") {
+                    data_ef += "CA" + numToHexString(data_ca.length / 2) + data_ca;
+                  }
+                  if (data_cf != "") {
+                    data_ef += "CF" + numToHexString(data_cf.length / 2) + data_cf;
+                  }
+                  data_ef += organiseAmendCParameter();
+                  parameterData += "EF" + numToHexString(data_ef.length / 2) + data_ef;
+
+                  var data_ea = $.trim($("#data_ea").val());
+                  if (data_ea != "") {
+                    parameterData += "EA" + numToHexString(data_ea.length / 2) + data_ea;
+                  }
+                  
+                break;
+
+                case "08":
+                  // EF:System Specific Parameters
+                  // CF
+                  var data_cf = $.trim($("#data_cf").val());
+                  if (data_cf != "") {
+                    data_ef += "CF" + numToHexString(data_cf.length / 2) + data_cf;
+                  }
+                  parameterData += "EF" + numToHexString(data_ef.length / 2) + data_ef;
+                break;
+
+                case "10":
+                  // Extradition no EF parameters.
+                break;
+
+                case "20":
+                  // Personalization no parameters, have Three 'Length of data'.
+                  parameterData += "000000";
+                break;
+
+                case "40":
+                  // EF:System Specific Parameters
+                  // CB/CF/D9
+                  var data_cb = $.trim($("#data_cb").val());
+                  if (data_cb != "") {
+                    data_ef += "CB" + numToHexString(data_cb.length / 2) + data_cb;
+                  }
+                  var data_cf = $.trim($("#data_cf").val());
+                  if (data_cf != "") {
+                    data_ef += "CF" + numToHexString(data_cf.length / 2) + data_cf;
+                  }
+
+                  var data_d9 = 0;
+                  $("input[name='data_d9']:checked").each(function() {
+                      data_d9 |= parseInt("0x" + $(this).val());
+                  });
+                  data_d9 = numToHexString(data_d9);
+                  if (data_d9 != "") {
+                    data_ef += "D9" + numToHexString(data_d9.length / 2) + data_d9;
+                  }
+                  data_ef += organiseAmendCParameter();
+
+                  parameterData += "EF" + numToHexString(data_ef.length / 2) + data_ef;
+                break;
+
+                default:
+                break;
+              }
+              
+              if (installType != "20") { // Personalization no parameters, have Three 'Length of data'.
+                // B6_TLV
+                parameterData += organiseB6TLV(installType);
+                // Parameter_LV
+                parameterData = numToHexString(parameterData.length / 2) + parameterData;
+              }
+
+              return parameterData;
+            }
+
+            function organiseAmendCParameter() {
+              var amendcParameter = "";
+              var data_item = "";
+              // A0
+              var data_cl_a0 = "";
+              $("input[name='data_cl_a0_80']:checked").each(function() {
+                  data_item += $(this).val();
+              });
+              data_cl_a0 += "80" + numToHexString(data_item.length / 2) + data_item;
+
+              data_item = $("input[name='data_cl_a0_81']:checked").val();
+              data_cl_a0 += "81" + numToHexString(data_item.length / 2) + data_item;
+
+              data_item = $.trim($("#data_a0_a2").val());
+              if (data_item != "") {
+                data_cl_a0 += "A2" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a0_83").val());
+              if (data_item != "") {
+                data_cl_a0 += "83" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a0_84").val());
+              if (data_item != "") {
+                data_cl_a0 += "84" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              // A5
+              var data = 0;
+              var data_cl_a0_a5 = "";
+              $("input[name='data_cl_a0_a5_80']:checked").each(function() {
+                  data |= parseInt("0x" + $(this).val());
+              });
+              data_item = numToHexString(data);
+              if (data_item != "00") {
+                data_cl_a0_a5 += "80" + numToHexString(data_item.length / 2) + data_item;
+              }
+              data = 0;
+              $("input[name='data_cl_a0_a5_81']:checked").each(function() {
+                  data |= parseInt("0x" + $(this).val());
+              });
+              data_item = numToHexString(data);
+              if (data_item != "00") {
+                data_cl_a0_a5 += "81" + numToHexString(data_item.length / 2) + data_item;
+              }
+              data = 0;
+              $("input[name='data_cl_a0_a5_82']:checked").each(function() {
+                  data |= parseInt("0x" + $(this).val());
+              });
+              data_item = numToHexString(data);
+              if (data_item != "00") {
+                data_cl_a0_a5 += "82" + numToHexString(data_item.length / 2) + data_item;
+              }
+              data_cl_a0 += "A5" + numToHexString(data_cl_a0_a5.length / 2) + data_cl_a0_a5;
+
+              data_item = $.trim($("#data_a0_86").val());
+              if (data_item != "") {
+                data_cl_a0 += "86" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a0_87").val());
+              if (data_item != "") {
+                data_cl_a0 += "87" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a0_88").val());
+              if (data_item != "") {
+                data_cl_a0 += "88" + numToHexString(data_item.length / 2) + data_item;
+              }
+              data_cl_a0 = "A0" + numToHexString(data_cl_a0.length / 2) + data_cl_a0;
+
+              // A1
+              var data_cl_a1 = "";
+              data_item = $.trim($("#data_a1_7f20").val());
+              if (data_item != "") {
+                data_cl_a1 += "7F20" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a1_a0").val());
+              if (data_item != "") {
+                data_cl_a1 += "A0" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a1_a1").val());
+              // TODO support more AID, throung "," or " "
+              if (data_item != "") {
+                data_item = "4F" + numToHexString(data_item.length / 2) + data_item;
+                data_cl_a1 += "A1" +  numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a1_a2").val());
+              if (data_item != "") {
+                data_item = "4F" + numToHexString(data_item.length / 2) + data_item;
+                data_cl_a1 += "A2" +  numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a1_a3").val());
+              if (data_item != "") {
+                data_item = "4F" + numToHexString(data_item.length / 2) + data_item;
+                data_cl_a1 += "A3" +  numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a1_a4").val());
+              if (data_item != "") {
+                data_item = "4F" + numToHexString(data_item.length / 2) + data_item;
+                data_cl_a1 += "A4" +  numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a1_a5").val());
+              if (data_item != "") {
+                data_item = "4F" + numToHexString(data_item.length / 2) + data_item;
+                data_cl_a1 += "A5" +  numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a1_a6").val());
+              if (data_item != "") {
+                data_cl_a1 += "A6" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $.trim($("#data_a1_87").val());
+              if (data_item != "") {
+                data_cl_a1 += "87" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              data_item = $("input[name='data_cl_a1_88']:checked").val();
+              data_cl_a1 += "88" + numToHexString(data_item.length / 2) + data_item;
+
+              data_cl_a1 = "A1" + numToHexString(data_cl_a1.length / 2) + data_cl_a1;
+
+              var data_cl_b0 = "";
+              data_item = $.trim($("#data_cl_b0").val());
+              if (data_item != "") {
+                data_cl_b0 += "B0" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              var data_cl_82 = "";
+              data_item = $.trim($("#data_cl_82").val());
+              if (data_item != "") {
+                data_cl_82 += "82" + numToHexString(data_item.length / 2) + data_item;
+              }
+
+              var data_cl_83 = "";
+              data_item = $.trim($("#data_cl_83").val());
+              if (data_item != "") {
+                data_cl_83 += "83" + numToHexString(data_item.length / 2) + data_item;
+              }
+              
+              amendcParameter = data_cl_a0 + data_cl_a1 + data_cl_b0 + data_cl_82 + data_cl_83;
+
+              return amendcParameter;
+            }
+
+            function organiseB6TLV(installType) {
+              // B6:Control Reference Template for Digital Signature (Token)
+              var data_b6 = "";
+              var data_42 = $.trim($("#data_42").val());
+              var data_45 = $.trim($("#data_45").val());
+              var data_5f20 = $.trim($("#data_5f20").val());
+              var data_93 = $.trim($("#data_93").val());
+              if (data_42 != "") {
+                data_b6 += "42" + numToHexString(data_42.length / 2) + data_42;
+              }
+              if (data_45 != "") {
+                data_b6 += "45" + numToHexString(data_45.length / 2) + data_45;
+              }
+              if (data_5f20 != "") {
+                data_b6 += "5F20" + numToHexString(data_5f20.length / 2) + data_5f20;
+              }
+              if (data_93 != "") {
+                data_b6 += "93" + numToHexString(data_93.length / 2) + data_93;
+              }
+              data_b6 = (data_b6 == "" ? "" : ("B6" + numToHexString(data_b6.length / 2) + data_b6))
+              return data_b6; // B6 TLV
+            }
+
+            function organiseTokenLV(installType) {
+               // Token
+              var token = "";
+              if (installType != "20") { // for personalizaiton no token
+                token = $.trim($("#data_field_token").val());
+              }
+              return token;
+            }
+
+            function clickRecover() {
+              $("#data_field_lv1").val("");
+              $("#data_field_lv1").prop("disabled", false);
+
+              $("#data_field_lv2").val("");
+              $("#data_field_lv2").prop("disabled", false);
+
+              $("#data_field_lv3").val("");
+              $("#data_field_lv3").prop("disabled", false);
+              $("#data_field_token").val("00");
+
+              $("#data_field_app_privilege").hide();
+              $("#install_data_field_parameter").hide();
+
+              // parameter
+              $("#system_c9").hide();
+              $("#system_c6").hide();
+              $("#system_c7").hide();
+              $("#system_c8").hide();
+              $("#system_cd").hide();
+
+              $("#system_dd").hide();
+              $("#system_cb").hide();
+              $("#system_d7").hide();
+              $("#system_d8").hide();
+
+              $("#system_ca").hide();
+              $("#system_cf").hide();
+              $("#system_d9").hide();
+              $("#system_ea").hide();
+              $("#data_field_system_parameter_lab").show();
+              $("#system_amendc").hide();
+
+              $("#lcText").val("");
+              $("#apduText").val("");
+            }
+
+            // Change Data Field View by Install Type
+            $('input[name="install_type"]').click(function(){
+              clickRecover();
+
+              if($(this).val() == "02" || $(this).val() == "0E-first"){
+                //  02 [For load]   &   0E First combined Install[For load,install and make selectable]  
+                //$('input[name="delete_data"]').removeAttr("checked");
+                //$("#delete_key_data").prop("disabled", true);
+                //$("#delete_card_content").prop("checked",true);
+
+                $("#data_field_lv1_lab").text("Load File AID");
+                //$("#data_field_lv1").placeholder("123");
+                $("#data_field_lv2_lab").text("Security Domain AID");
+                $("#data_field_lv3_lab").text("Load File Data Block Hash");
+
+                // privilege
+                //$("#data_field_app_privilege").hide();
+
+                // set parameter
+                $("#data_field_parameter_lab").text("Load Parameters");
+                $("#install_data_field_parameter").show();
+                $("#system_c6").show();
+                $("#system_c7").show();
+                $("#system_c8").show();
+                $("#system_cd").show();
+                $("#system_dd").show();
+
+                // set token
+                $("#data_field_token_lab").text("Load Token");
+              } else if($(this).val() == "04" || $(this).val() == "0C" || $(this).val() == "0E-final") {
+                // 04 [For install]  &  0E Final combined Install[For load,install and make selectable]     
+                //$('input[name="delete_data"]').removeAttr("checked");
+                //$("#delete_key_data").prop("disabled", false);
+                //$("#delete_card_content").prop("checked",true); // use prop() instend of attr()
+                $("#data_field_lv1_lab").text("Executable Load File AID");
+                $("#data_field_lv2_lab").text("Executable Module AID");
+                $("#data_field_lv3_lab").text("Application AID");
+
+                // privilege
+                $("#data_field_app_privilege").show();
+
+                // set parameter
+                $("#data_field_parameter_lab").text("Install Parameters");
+                $("#install_data_field_parameter").show();
+                $("#system_c9").show();
+                $("#system_c7").show();
+                $("#system_c8").show();
+                $("#system_cb").show();
+                $("#system_d7").show();
+                $("#system_d8").show();
+                $("#system_ca").show();
+                $("#system_cf").show();
+                $("#system_ea").show();
+
+                $("#system_amendc").show();
+
+                // set token
+                $("#data_field_token_lab").text("Install Token");
+
+              } else if($(this).val() == "08") {
+                // 08 [For make selectable]
+                $("#data_field_lv1_lab").text("Length of data");
+                $("#data_field_lv1").val("00");
+                $("#data_field_lv1").prop("disabled", true);
+
+                $("#data_field_lv2_lab").text("Length of data");
+                $("#data_field_lv2").val("00");
+                $("#data_field_lv2").prop("disabled", true);
+
+                $("#data_field_lv3_lab").text("Application AID");
+
+                // privilege
+                $("#data_field_app_privilege").show();
+
+                // set parameter
+                $("#data_field_parameter_lab").text("Make Selectable Parameters");
+                $("#install_data_field_parameter").show();
+                $("#system_cf").show();
+
+                // set token
+                $("#data_field_token_lab").text("Make Selectable Token");
+                
+              } else if($(this).val() == "10") {
+                // 10 [For extradition]
+                $("#data_field_lv1_lab").text("Security Domain AID");
+
+                $("#data_field_lv2_lab").text("Length  of data");
+                $("#data_field_lv2").val("00");
+                $("#data_field_lv2").prop("disabled", true);
+
+                $("#data_field_lv3_lab").text("Application or Executable Load File AID");
+                
+                // privilege
+                //$("#data_field_app_privilege").hide();
+
+                // set parameter
+                $("#data_field_parameter_lab").text("Extradition Parameters");
+                $("#data_field_system_parameter_lab").hide(); // extradition no EF parameters
+                $("#install_data_field_parameter").show();
+
+                // set token
+                $("#data_field_token_lab").text("Extradition Token");
+              } else if($(this).val() == "20") {
+                // 20 [For personalization]
+                $("#data_field_lv1_lab").text("Length of data");
+                $("#data_field_lv1").val("00");
+                $("#data_field_lv1").prop("disabled", true);
+
+                $("#data_field_lv2_lab").text("Length of data");
+                $("#data_field_lv2").val("00");
+                $("#data_field_lv2").prop("disabled", true);
+
+                $("#data_field_lv3_lab").text("Application AID");
+
+                // privilege
+                //$("#data_field_app_privilege").hide();
+
+                // set parameter
+                //$("#install_data_field_parameter").hide();
+
+                // set token
+                $("#data_field_token_lab").text("Three 'Length of data'");
+                $("#data_field_token").val("000000");
+
+              } else if($(this).val() == "40") {
+                // 40 [For registry update]    
+                $("#data_field_lv1_lab").text("Security Domain AID");
+
+                $("#data_field_lv2_lab").text("Length of data");
+                $("#data_field_lv2").val("00");
+                $("#data_field_lv2").prop("disabled", true);
+
+                $("#data_field_lv3_lab").text("Application AID");
+
+                // privilege
+                $("#data_field_app_privilege").show();
+
+                // set parameter
+                $("#data_field_parameter_lab").text("Registry Update Parameters");
+                $("#install_data_field_parameter").show();
+                $("#system_cb").show();
+                $("#system_cf").show();
+                $("#system_d9").show();
+
+                $("#system_amendc").show();
+
+                // set token
+                $("#data_field_token_lab").text("Registry Update Parameters Token");  
+              }
+
+            });
+
+        });
+
+        function checkLengthError(data) {
+          if (data == "" || data.length % 2 != 0) {
+              $("#myAlert").html("Length Error!");
+              $("#myAlert").show();
+              return true;
+          }
+          return false;
+        }
+    </script>
+  </body>
+</html>

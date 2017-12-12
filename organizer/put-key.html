@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GPAOA">
+    <meta name="author" content="LionYJ">
+    <link rel="../icon" href="favicon.ico">
+
+    <title>GPAOA-GP APDU Organizer Analyst</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">GPAOA</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="index_organizer.html">Organizer</a></li>
+            <li><a href="../index_analyst.html">Analyst</a></li>
+            <li><a href="../help.html">Help</a></li>
+          </ul>
+          <!--
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+          -->
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="index_organizer.html">Organise GP APDU<span class="sr-only">(current)</span></a></li>
+            <!--
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+            -->
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="select.html">SELECT</a></li>
+            <li><a href="manage-channel.html">MANAGE CHANNEL</a></li>
+
+            <li><a href="install.html">INSTALL</a></li>
+            <li><a href="load.html">LOAD</a></li>
+            <li><a href="delete.html">DELETE</a></li>
+            <li class="active"><a href="put-key.html">PUT KEY</a></li>
+        
+            <li><a href="get-data.html">GET DATA</a></li>
+            <li><a href="store-data.html">STORE DATA</a></li>
+          
+            <li><a href="get-status.html">GET STATUS</a></li>
+            <li><a href="set-status.html">SET STATUS</a></li>
+
+            <li><a href="initialize-update.html">INITIALIZE UPDATE</a></li>
+            <li><a href="external-authenticate.html">EXTERNAL AUTHENTICATE</a></li>
+
+            <li><a href="begin-rmac.html">BEGIN R-MAC SESSION</a></li>
+            <li><a href="end-rmac.html">END R-MAC SESSION</a></li>
+
+            <li><a href="crs-getstatus.html">CRS-GET STATUS</a></li>
+            <li><a href="crs-setstatus.html">CRS-SET STATUS</a></li>
+
+            <li><a href="crs-select.html">CRS-SELECT</a></li>
+            <li><a href="crs-getdata.html">CRS-GET DATA</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <!--
+          <h1 class="page-header">GP APDU ORGNIZER!</h1>
+          -->
+
+          <h3 class="sub-header">PUT KEY COMMAND</h3>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Command Part</th>
+                  <th>Part Value[If the command part has multiple value to choose, support multiple-choice]</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr>
+                  <td>CLA</td>
+                  <td>80</td>
+                </tr>
+                <tr>
+                  <td>INS</td>
+                  <td>D8</td>
+                </tr>
+                <tr>
+                  <td>P1</td>
+                  <td>
+                    <div class="col-xs-6">
+                     <label>Bit8-Last (or only)/More put key command</label><br>
+                      <input type="radio" name="put_key_p1" id="last_command" value="00" checked> 00 [Last (or only) command]&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input type="radio" name="put_key_p1" id="more_command" value="80"> 80 [More PUT KEY commands]
+                    </div>
+                    
+                    <div class="col-xs-3">
+                    <label>Bit7-Bit1:Key Version Number</label><br>
+                      <input type="text" name="put_key_p1_kvn" id="put_key_p1_kvn" placeholder="KVN" value="00" class="form-control">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>P2</td>
+                  <td>
+                    <div class="col-xs-6">
+                    <label>Bit8-Single/Multiple key</label><br>
+                      <input type="radio" name="put_key_p2" id="last_command" value="00" checked> 00 [Single key]&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input type="radio" name="put_key_p2" id="more_command" value="80"> 80 [Multiple keys]
+                    </div>
+                    
+                    <div class="col-xs-3">
+                    <label>Bit7-Bit1:Key Identifier</label><br>
+                      <input type="text" name="put_key_p2_kid" id="put_key_p2_kid" placeholder="KID" value="01" class="form-control">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>LC</td>
+                  <td>
+                    <div class="col-xs-3">
+                      <input class="form-control" id="lcText" type="text" placeholder="automatic calculation" disabled>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Data Field</td>
+                  <td>
+                    <!-- DES/RSA Key radio -->
+                     <div class="col-xs-12">
+                      <label>Put Key Type</label><br>
+                      <input name="put_key_type" id="put_key_type_des" type="radio" value="des" checked> DES KEY &nbsp;&nbsp;&nbsp;&nbsp;
+                      <input name="put_key_type" id="put_key_type_rsa" type="radio" value="rsa"> RSA KEY
+                    </div>
+                    <!-- New version number -->
+                    <div class="col-xs-3">
+                      <label>New version number [1Byte]</label><br>
+                      <input id="new_kvn" type="text" class="form-control" placeholder="New version number">
+                    </div>
+                    <!-- DES Key Data Field -->
+                    <div class="col-xs-12" id="des_key_data_field">
+                      <!-- Singe Key Data Field -->
+                      <div class="col-xs-12" id="key_data_field_1">
+                        <div class="col-xs-2">
+                          <label>Key Type [1Byte]</label><br>
+                          <input type="text" name="key_type_1" id="key_type_1" value="80" placeholder="Key Type" class="form-control">
+                        </div> 
+                        <div class="col-xs-2">
+                          <label>Key Data Length</label><br>
+                          <input id="key_len_1" type="text" class="form-control" placeholder="Key Length" value="10" disabled>
+                        </div>
+                         <div class="col-xs-3">
+                          <label>Key Data Value [16yte]</label><br>
+                          <input id="key_value_1" type="text" class="form-control" placeholder="Key Value">
+                        </div>
+                        <div class="col-xs-2">
+                          <label>CheckValueLen[3Byte]</label><br>
+                          <input id="cv_len_1" type="text" class="form-control" placeholder="Check Value Len" value="03" disabled>
+                        </div>
+                        <div class="col-xs-2">
+                          <label>Check Value</label><br>
+                          <input id="cv_value_1" type="text" class="form-control" placeholder="Check Value">
+                        </div>
+                      </div>
+                      <!-- Multiple Key Data Field -->
+                      <div class="col-xs-12" id="key_data_field_2" style="display: none;">
+                        <div class="col-xs-2">
+                          <label>Key Type</label><br>
+                          <input type="text" name="key_type" id="key_type_2" value="80" placeholder="Key Type" class="form-control">
+                        </div> 
+                        <div class="col-xs-2">
+                          <label>Key Data Length</label><br>
+                          <input id="key_len_2" type="text" class="form-control" placeholder="Key Length" value="10" disabled>
+                        </div>
+                         <div class="col-xs-3">
+                          <label>Key Data Value</label><br>
+                          <input id="key_value_2" type="text" class="form-control" placeholder="Key Value">
+                        </div>
+                        <div class="col-xs-2">
+                          <label>Check Value Length</label><br>
+                          <input id="cv_len_2" type="text" class="form-control" placeholder="Check Value Len" value="03" disabled>
+                        </div>
+                        <div class="col-xs-2">
+                          <label>Check Value</label><br>
+                          <input id="cv_value_2" type="text" class="form-control" placeholder="Check Value">
+                        </div>
+                      </div>
+                      <!-- Multiple Key Data Field -->
+                      <div class="col-xs-12" id="key_data_field_3" style="display: none;">
+                        <div class="col-xs-2">
+                          <label>Key Type</label><br>
+                          <input type="text" name="key_type" id="key_type_3" value="80" placeholder="Key Type" class="form-control">
+                        </div> 
+                        <div class="col-xs-2">
+                          <label>Key Data Length</label><br>
+                          <input id="key_len_3" type="text" class="form-control" placeholder="Key Length" value="10" disabled>
+                        </div>
+                         <div class="col-xs-3">
+                          <label>Key Data Value</label><br>
+                          <input id="key_value_3" type="text" class="form-control" placeholder="Key Value">
+                        </div>
+                        <div class="col-xs-2">
+                          <label>Check Value Length</label><br>
+                          <input id="cv_len_3" type="text" class="form-control" placeholder="Check Value Len" value="03" disabled>
+                        </div>
+                        <div class="col-xs-2">
+                          <label>Check Value</label><br>
+                          <input id="cv_value_3" type="text" class="form-control" placeholder="Check Value">
+                        </div>
+                      </div>
+                    </div>
+                    <!-- RSA Key Data Field -->
+                    <div class="col-xs-12" id="rsa_key_data_field" style="display: none;">
+                      <div class="col-xs-12" id="key_data_field_1_rsa">
+                        <div class="col-xs-2">
+                          <label>Key Type</label><br>
+                          <input type="text" name="key_type_rsa_a1" id="key_type_rsa_a1" value="A1" placeholder="Key Type" class="form-control" disabled>
+                        </div> 
+                        <div class="col-xs-2">
+                          <label>Modulus length('80')</label><br>
+                          <input id="key_len_rsa_a1" type="text" class="form-control" placeholder="Key Length" value="80" disabled>
+                        </div>
+                         <div class="col-xs-8">
+                          <label>Public key modulus [128yte]</label><br>
+                          <input id="key_value_rsa_a1" type="text" class="form-control" placeholder="Public key modulus Value">
+                        </div>
+                        <div class="col-xs-2">
+                          <label>Key Type</label><br>
+                          <input type="text" name="key_type_rsa_a0" id="key_type_rsa_a0" value="A0" placeholder="Key Type" class="form-control" disabled>
+                        </div> 
+                        <div class="col-xs-2">
+                          <label>ExponentLen('01'/'03')</label><br>
+                          <input id="key_len_rsa_a0" type="text" class="form-control" placeholder="Exponent len" disabled>
+                        </div>
+                         <div class="col-xs-3">
+                          <label>Exponent [1 or 3Byte]</label><br>
+                          <input id="key_value_rsa_a0" type="text" class="form-control" placeholder="Exponent Value">
+                        </div>
+                        <div class="col-xs-2">
+                          <label>Check Value Len</label><br>
+                          <input id="cv_len_rsa" type="text" class="form-control" value="00" placeholder="Check Value Len" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="myAlert" class="col-xs-6" style="display: none; color:red">Warning:Length error!</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><button id="organise" type="button" class="btn btn-primary">Organise</button></td>
+                  <td>
+                    <div class="col-xs-12">
+                      <input id="apduText" type="text" class="form-control" placeholder="GENERATED PUT KEY APDU COMMAND">
+                    </div>
+                    <!--
+                    <div class="col-xs-3">
+                      <button id="copyclip" type="button" class="btn btn-info">Copyclip</button>
+                    </div>
+                    -->
+                  </td>
+                  
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>
+         
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../dist/js/jquery-1.11.1.js"></script>
+    <script src="../dist/js/bootstrap.min.js"></script>
+    <script src="../assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../dist/js/gp.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#organise").click(function(){
+              $("#myAlert").hide();
+              $("#lcText").val("");
+
+              var p1 = $("input[name='put_key_p1']:checked").val();
+              var p2 = $("input[name='put_key_p2']:checked").val();
+              var kvn = $("#put_key_p1_kvn").val();
+              var kid = $("#put_key_p2_kid").val();
+
+              if (checkLengthError(kvn, 2, "Key version number length error!")) {
+                $("#put_key_p1_kvn").focus().select();
+                return;
+              }
+
+              if (checkLengthError(kid, 2, "Key Identifier length error!")) {
+                $("#put_key_p2_kid").focus().select();
+                return;
+              }
+
+              var finalP1 = numToHexString(parseInt("0x" + p1) | parseInt("0x" + kvn));
+              var finalP2 = numToHexString(parseInt("0x" + p2) | parseInt("0x" + kid));
+
+              var put_key_type = $("input[name='put_key_type']:checked").val();
+              var new_kvn = $.trim($("#new_kvn").val());
+
+              if (checkLengthError(new_kvn, 2, "New Key version number length error!")) {
+                $("#new_kvn").focus().select();
+                return;
+              }
+
+              var keyDataField = new_kvn;
+              if (put_key_type == "des") {
+                var keyType1 = $.trim($("#key_type_1").val());
+                var keyLength1 = $.trim($("#key_len_1").val());
+                var keyDataValue1 = $.trim($("#key_value_1").val());
+                var checkLength1 = $.trim($("#cv_len_1").val());
+                var checkValue1 = $.trim($("#cv_value_1").val());
+
+                if (checkLengthError(keyType1, 2, "Key Type length error!")) {
+                  $("#key_type_1").focus().select();
+                  return;
+                }
+                if (checkLengthError(keyDataValue1, 32, "Key Value length error!")) {
+                  $("#key_value_1").focus().select();
+                  return;
+                }
+                if (checkLengthError(checkValue1, 6, "Key Value length error!")) {
+                  $("#cv_value_1").focus().select();
+                  return;
+                }
+
+                keyDataField += (keyType1 + keyLength1 + keyDataValue1 + checkLength1 + checkValue1);
+
+                // des
+                if (p2 == "00") {
+                  // single key
+                  keyDataField = keyDataField;
+                } else {
+                  // multiple key
+                  var keyType2 = $.trim($("#key_type_2").val());
+                  var keyLength2 = $.trim($("#key_len_2").val());
+                  var keyDataValue2 = $.trim($("#key_value_2").val());
+                  var checkLength2 = $.trim($("#cv_len_2").val());
+                  var checkValue2 = $.trim($("#cv_value_2").val());
+
+                  if (checkLengthError(keyType2, 2, "Key Type length error!")) {
+                    $("#key_type_2").focus().select();
+                    return;
+                  }
+                  if (checkLengthError(keyDataValue2, 32, "Key Value length error!")) {
+                    $("#key_value_2").focus().select();
+                    return;
+                  }
+                  if (checkLengthError(checkValue2, 6, "Key Value length error!")) {
+                    $("#cv_value_2").focus().select();
+                    return;
+                  }
+                  keyDataField += (keyType2 + keyLength2 + keyDataValue2 + checkLength2 + checkValue2);
+
+                  // multiple key
+                  var keyType3 = $.trim($("#key_type_3").val());
+                  var keyLength3 = $.trim($("#key_len_3").val());
+                  var keyDataValue3 = $.trim($("#key_value_3").val());
+                  var checkLength3 = $.trim($("#cv_len_3").val());
+                  var checkValue3 = $.trim($("#cv_value_3").val());
+
+                  if (checkLengthError(keyType3, 2, "Key Type length error!")) {
+                    $("#key_type_3").focus().select();
+                    return;
+                  }
+                  if (checkLengthError(keyDataValue3, 32, "Key Value length error!")) {
+                    $("#key_value_3").focus().select();
+                    return;
+                  }
+                  if (checkLengthError(checkValue3, 6, "Key Value length error!")) {
+                    $("#cv_value_3").focus().select();
+                    return;
+                  }
+
+                  keyDataField += (keyType3 + keyLength3 + keyDataValue3 + checkLength3 + checkValue3);
+                }
+              } else {
+                // rsa
+                var key_type_rsa_a1 = $.trim($("#key_type_rsa_a1").val());
+                var key_len_rsa_a1 = $.trim($("#key_len_rsa_a1").val());
+                var key_value_rsa_a1 = $.trim($("#key_value_rsa_a1").val());
+                var key_type_rsa_a0 = $.trim($("#key_type_rsa_a0").val());
+                //var key_len_rsa_a0 = $.trim($("#key_len_rsa_a0").val());
+                var key_value_rsa_a0 = $.trim($("#key_value_rsa_a0").val());
+                var cv_len_rsa = $.trim($("#cv_len_rsa").val());
+
+                if (checkLengthError(key_value_rsa_a1, 256, "Public key modulus value length error!")) {
+                    $("#key_value_rsa_a1").focus().select();
+                    return;
+                }
+                if (key_value_rsa_a0.length != 2 && key_value_rsa_a0.length != 6) {
+                  $("#myAlert").html("Exponent value length error!");
+                  $("#myAlert").show();
+                  $("#key_value_rsa_a0").focus().select();
+                  return true;
+                }
+
+                var exponentLengthHex = numToHexString(key_value_rsa_a0.length / 2);
+                $("#key_type_rsa_a0").val("0x" + exponentLengthHex);
+
+                keyDataField += (key_type_rsa_a1 + key_len_rsa_a1 + key_value_rsa_a1 + key_type_rsa_a0 + exponentLengthHex + key_value_rsa_a0 + cv_len_rsa);
+              }
+
+              var lc = keyDataField.length / 2;
+              var lcHex = numToHexString(lc);
+              $("#lcText").val("0x" + lcHex);
+              $("#apduText").val("80D8" + finalP1 + finalP2 + lcHex + keyDataField);
+            });
+
+            // Single/Multiple Key
+            $('input[name="put_key_p2"]').click(function(){
+              if($(this).val() == "80"){
+               $("#key_data_field_2").show();
+               $("#key_data_field_3").show();
+               //$('input[name="delete_data"]').removeAttr("checked");
+              // $("#delete_key_data").prop("disabled", true);
+              // $("#delete_card_content").prop("checked",true);
+              } else {
+               $("#key_data_field_2").hide();
+               $("#key_data_field_3").hide();
+               // $('input[name="delete_data"]').removeAttr("checked");
+               // $("#delete_key_data").prop("disabled", false);
+               // $("#delete_card_content").prop("checked",true); // use prop() instend of attr()
+              }
+            });
+
+            // des/rsa key
+            $('input[name="put_key_type"]').click(function(){
+              if($(this).val() == "des"){
+               $("#rsa_key_data_field").hide();
+               $("#des_key_data_field").show();
+               //$('input[name="delete_data"]').removeAttr("checked");
+              // $("#delete_key_data").prop("disabled", true);
+              // $("#delete_card_content").prop("checked",true);
+              } else {
+               $("#rsa_key_data_field").show();
+               $("#des_key_data_field").hide();
+               // $('input[name="delete_data"]').removeAttr("checked");
+               // $("#delete_key_data").prop("disabled", false);
+               // $("#delete_card_content").prop("checked",true); // use prop() instend of attr()
+              }
+            });
+
+        });
+
+        function checkLengthError(data, expectedLength, showMessage) {
+          if (data == "" || data.length != expectedLength) {
+              $("#myAlert").html(showMessage);
+              $("#myAlert").show();
+              return true;
+          }
+          return false;
+        }
+
+
+    </script>
+  </body>
+</html>
