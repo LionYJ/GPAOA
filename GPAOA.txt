@@ -1,8 +1,0 @@
-GPAOA:GP APDU Organizer Analyst
-V0.1:
-	1.GPAOA UI Design.
-	2.JQuery Infrastructure Code.
-  	3.Orgnise and analyse Select/Manage Channel APPDU.
-
- V0.2:
- 	1.
