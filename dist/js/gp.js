@@ -305,6 +305,15 @@ function analyzeInstallByType(lcData, lc, installType, p2) {
    showAnalyseData += lengthHex + " " + data + data_filed_lv3;
    offset += 2 + 2 * length;
 
+   // Data Field LV4
+   if (installType == "10") {
+      lengthHex = lcData.substr(offset, 2);
+      length = parseInt("0x" + lengthHex);
+      data = lcData.substr(offset + 2, 2 * length);
+      showAnalyseData += lengthHex + " " + data + "[Length] <br>";
+      offset += 2 + 2 * length;
+   }
+
    // Install[for install, for install & make selectable, for registry update]
    // Privileges LV
    if ((installType == "04") || (installType == "08") || (installType == "0C") || (installType == "40") || ((installType == "0E") && (p2 == "03"))) {
@@ -388,36 +397,88 @@ function analyzeParameters(parameterData, parameterLen) {
 
 function analyzeC9Parameters(lcData, offset, length) {
    var displayData = "C9 " + lcData.substr(offset + 2, 2) + " [Application Specific Parameters] <br>";
-   /*
+
    offset += 4;
    var tag;
    var lenHex;
    var len;
-   var length = 0;
    length += offset;
    while (offset < length) {
       tag = lcData.substr(offset, 2);
+      lenHex = lcData.substr(offset + 2, 2);
+      len = parseInt("0x" + lenHex) * 2;
       
       switch (tag) {
-      case "4F":
-         lenHex = lcData.substr(offset + 2, 2);
-         len = parseInt("0x" + lenHex) * 2;
-         displayData += TAB + "4F " + lenHex + " " + lcData.substr(offset + 4, len) + " [Security Domain AID] <br>";
-         offset += 4 + len;
+      case "81":
+         displayData += TAB2 + tag + " " + lenHex + " " + lcData.substr(offset + 4, len) + " [Secure Channel Protocol Identifier and Implementation Option “i”] <br>";
       break;
-      case "C3":
-         lenHex = lcData.substr(offset + 2, 2);
-         len = parseInt("0x" + lenHex) * 2;
-         displayData += TAB + "C3 " + lenHex + " " + lcData.substr(offset + 4, len) + " [Load File Data Block Signature] <br>";
-         offset += 4 + len;
+      case "82":
+         displayData += TAB2 + tag + " " + lenHex + " " + lcData.substr(offset + 4, len) + " [Accept extradition of Applications and/or Executable Load Files to this Security Domain] <br>";
+      break;
+      case "83":
+         displayData += TAB2 + tag + " " + lenHex + " " + lcData.substr(offset + 4, len) + " [Accept deletion of associated Applications and Executable Load Files] <br>";
+      break;
+      case "84":
+         displayData += TAB2 + tag + " " + lenHex + " " + lcData.substr(offset + 4, len) + " [Life Cycle State transition to PERSONALIZED using SET STATUS or STORE DATA command] <br>";
+      break;
+      case "86":
+         displayData += TAB2 + tag + " " + lenHex + " " + lcData.substr(offset + 4, len) + " [CASD Capability Information] <br>";
+      break;
+      case "87":
+         displayData += TAB2 + tag + " " + lenHex + " " + lcData.substr(offset + 4, len) + " [Accept extradition of associated Applications and/or Executable Load Files to another Security Domain] <br>";
       break;
       default:
+         displayData += TAB2 + tag + " " + lenHex + " " + lcData.substr(offset + 4, len) + "<br>";
       break;
       }
+ 
+      offset += 4 + len;
    }
-   */
-   data = lcData.substr(offset + 4, length);
-   displayData += TAB2 + data + (data != "" ? "<br>" : "");
+
+   //data = lcData.substr(offset + 4, length);
+   //displayData += TAB2 + data + (data != "" ? "<br>" : "");
+   return displayData;
+}
+
+
+function analyzeCAParameters(lcData, offset, length) {
+   var displayData = "CA " + lcData.substr(offset + 2, 2) + " [SIM file access and toolkit application specific parameters field] <br>";
+   var originOffset = offset + 4;
+   offset += 4;
+
+   var tmp = lcData.substr(offset, 2);
+   displayData += TAB3 + lcData.substr(offset, (1 + parseInt("0x" + tmp)) * 2) + " [Access Domain LV] <br>";
+   offset += (1 + parseInt("0x" + tmp)) * 2;
+
+   displayData += TAB3 + lcData.substr(offset, 2) + " [Priority level] <br>";
+   offset += 2;
+
+   displayData += TAB3 + lcData.substr(offset, 2) + " [Maximum number of timers allowed] <br>";
+   offset += 2;
+
+   displayData += TAB3 + lcData.substr(offset, 2) + " [Maximum text length for a menu entry] <br>";
+   offset += 2;
+
+   tmp = lcData.substr(offset, 2);
+   displayData += TAB3 + tmp + " [Maximum number of menu entries allowed] <br>";
+   offset += 2;
+
+   displayData += TAB3 + lcData.substr(offset, (parseInt("0x" + tmp)) * 4) + " [Position of the first menu entry(1) + Identifier of the first menu entry ('00' means do not care)(1)] <br>";
+   offset += (parseInt("0x" + tmp)) * 4;
+
+   displayData += TAB3 + lcData.substr(offset, 2) + " [Maximum number of channels] <br>";
+   offset += 2;
+
+   tmp = lcData.substr(offset, 2);
+   displayData += TAB3 + lcData.substr(offset, (1 + parseInt("0x" + tmp)) * 2) + " [Minimum Security Level LV] <br>";
+   offset += (1 + parseInt("0x" + tmp)) * 2;
+
+   if ((offset - originOffset) < length) {
+      tmp = lcData.substr(offset, 2);
+      displayData += TAB3 + lcData.substr(offset, (1 + parseInt("0x" + tmp)) * 2) + " [TAR Value(s) LV] <br>";
+      offset += (1 + parseInt("0x" + tmp)) * 2;
+   }
+
    return displayData;
 }
 
@@ -483,7 +544,7 @@ function analyzeEFParameters(lcData, offset, length) {
       case "CA":
          lenHex = lcData.substr(offset + 2, 2);
          len = parseInt("0x" + lenHex) * 2;
-         displayData += TAB2 + "CA " + lenHex + " " + lcData.substr(offset + 4, len) + " [TS 102 226 specific parameter] <br>";
+         displayData += TAB2 + analyzeCAParameters(lcData, offset, len);
          offset += 4 + len;
       break;
       case "CF":
@@ -589,6 +650,7 @@ function analyzeA0Parameters(lcData, offset, length) {
          len = parseInt("0x" + lenHex) * 2;
          displayData += TAB3 + "A5 " + lenHex + " " + lcData.substr(offset + 4, len) + " [Communication Interface Access Parameters] <br>";
          offset += 4 + len;
+      break;
       case "86":
          lenHex = lcData.substr(offset + 2, 2);
          len = parseInt("0x" + lenHex) * 2;
@@ -719,8 +781,14 @@ function analyzeB0Parameters(lcData, offset, length) {
          displayData += TAB3 + "87 " + lenHex + " " + lcData.substr(offset + 4, len) + " [Reader mode protocol data Type B:AFI + HIGHER_LAYER_DATA_LV] <br>";
          offset += 4 + len;
       break;
+      case "88":
+         lenHex = lcData.substr(offset + 2, 2);
+         len = parseInt("0x" + lenHex) * 2;
+         displayData += TAB3 + "88 " + lenHex + " " + lcData.substr(offset + 4, len) + " [CLT activity observer configuration] <br>";
+         offset += 4 + len;
+      break;
       default:
-         displayData += TAB3 + lcData.substr(originOffset + 4, originLength) + "<br>";
+         displayData += TAB3 + lcData.substr(originOffset + 4, originLength) + " [Not Definition] <br>";
          offset += 4 + originLength;
       break;
       }
@@ -776,10 +844,131 @@ function analyzeB6Parameters(lcData, offset, length) {
    return displayData;
 }
 
-function analyzeEAParameters(parameterData, offset, length) {
-   var displayData = "EA " + parameterData.substr(offset + 2, 2) + " [UICC System Specific Parameters] <br>";
-   data = parameterData.substr(offset + 4, length);
-   displayData += TAB2 + data + "<br>";
+function analyzeEA_80Parameters(lcData, offset, length) {
+    var displayData = "80 " + lcData.substr(offset + 2, 2) + " [UICC Toolkit Application specific parameters] <br>";
+    var originOffset = offset;
+    offset += 4;
+
+    var tmp;
+    displayData += TAB3 + lcData.substr(offset, 2) + " [Priority level] <br>";
+    offset += 2;
+
+    displayData += TAB3 + lcData.substr(offset, 2) + " [Maximum number of timers allowed] <br>";
+    offset += 2;
+
+    displayData += TAB3 + lcData.substr(offset, 2) + " [Maximum text length for a menu entry] <br>";
+    offset += 2;
+
+    tmp = lcData.substr(offset, 2);
+    displayData += TAB3 + tmp + " [Maximum number of menu entries allowed] <br>";
+    offset += 2;
+
+    displayData += TAB3 + lcData.substr(offset, (parseInt("0x" + tmp)) * 4) + " [Position of the first menu entry(1) + Identifier of the first menu entry ('00' means do not care)(1)] <br>";
+    offset += (parseInt("0x" + tmp)) * 4;
+
+    displayData += TAB3 + lcData.substr(offset, 2) + " [Maximum number of channels] <br>";
+    offset += 2;
+
+    tmp = lcData.substr(offset, 2);
+    displayData += TAB3 + lcData.substr(offset, (1 + parseInt("0x" + tmp)) * 2) + " [Minimum Security Level LV] <br>";
+    offset += (1 + parseInt("0x" + tmp)) * 2;
+
+    tmp = lcData.substr(offset, 2);
+    displayData += TAB3 + lcData.substr(offset, (1 + parseInt("0x" + tmp)) * 2) + " [TAR Value(s) LV] <br>";
+    offset += (1 + parseInt("0x" + tmp)) * 2;
+
+    displayData += TAB3 + lcData.substr(offset, 2) + " [Maximum number of services] <br>";
+    offset += 2;
+
+    return displayData;
+}
+
+function analyzeEA_8182Parameters(lcData, offset, length) {
+    var tmp = lcData.substr(offset, 2);
+    var displayData;
+    var lv1Meaning;
+    var lv2Meaning;
+
+    if (tmp == "81") {
+        displayData = tmp + lcData.substr(offset + 2, 2) + " [UICC Access Application specific parameters] <br>";
+    } else {
+        displayData = tmp + lcData.substr(offset + 2, 2) + " [UICC Administrative Access Application specific parameters] <br>";
+    }
+
+    offset += 4;
+    var lenHex;
+    var len;
+    length += offset;
+    while (offset < length) {
+        // AID LV
+        lenHex = lcData.substr(offset, 2);
+        len = parseInt("0x" + lenHex) * 2;
+        if (lenHex = "00") {
+          lv1Meaning =  " [UICC file system AID LV] <br>";
+          lv2Meaning =  " [Access Domain for UICC file system LV] <br>";
+        } else {
+          lv1Meaning =  " [ADF AID LV] <br>";
+          lv2Meaning =  " [Access Domain for ADF LV] <br>";
+        }
+        displayData += TAB3 + lcData.substr(offset, 2 + len) + lv1Meaning;
+        offset += 2 + len;
+
+        // Access Domain LV
+        lenHex = lcData.substr(offset, 2);
+        len = parseInt("0x" + lenHex) * 2;
+        displayData += TAB3 + lcData.substr(offset, 2 + len) + lv2Meaning;
+        offset += 2 + len;
+
+        // Access Domain DAP LV
+        lenHex = lcData.substr(offset, 2);
+        len = parseInt("0x" + lenHex) * 2;
+        displayData += TAB3 + lcData.substr(offset, 2 + len) + " [Access Domain DAP LV] <br>";
+        offset += 2 + len;
+    }
+
+    return displayData;
+}
+
+function analyzeEAParameters(lcData, offset, length) {
+   var displayData = "EA " + lcData.substr(offset + 2, 2) + " [UICC System Specific Parameters] <br>";
+   var originOffset = offset;
+   var originLength = length;
+   offset += 4;
+   var tag;
+   var lenHex;
+   var len;
+   length += offset;
+   while (offset < length) {
+      tag = lcData.substr(offset, 2);
+      
+      switch (tag) {
+      case "80":
+        lenHex = lcData.substr(offset + 2, 2);
+        len = parseInt("0x" + lenHex) * 2;
+        displayData += TAB2 + analyzeEA_80Parameters(lcData, offset, len);
+        offset += 4 + len;
+        break;
+      case "C3":
+        lenHex = lcData.substr(offset + 2, 2);
+        len = parseInt("0x" + lenHex) * 2;
+        displayData += TAB2 + "C3 " + lenHex + " " + lcData.substr(offset + 4, len) + " [UICC Toolkit parameters DAP] <br>";
+        offset += 4 + len;
+        break;
+      case "81":
+      case "82":
+        lenHex = lcData.substr(offset + 2, 2);
+        len = parseInt("0x" + lenHex) * 2;
+        displayData += TAB2 + analyzeEA_8182Parameters(lcData, offset, len);
+        offset += 4 + len;
+        break;
+      default:
+        lenHex = lcData.substr(offset + 2, 2);
+        len = parseInt("0x" + lenHex) * 2;
+        displayData += TAB2 + tag + " " + lenHex + " " + lcData.substr(offset + 4, len) + " [Not Definition] <br>";
+        offset += 4 + len;
+        break;
+      }
+   }
    return displayData;
 }
 
@@ -912,9 +1101,16 @@ function analyzeLoad(apduData) {
       tag = lcData.substr(offset, 2);
       switch (tag) {
          case  "E2":
-            var dapLen = parseInt("0x" + lcData.substr(offset + 2, 2));
+            var dapLen = lcData.substr(offset + 2, 2);
+            var lenCount = 4;
+            if (dapLen == "81") {
+               dapLen = lcData.substr(offset + 4, 2);
+               lenCount = 6;
+            }
+            dapLen = parseInt("0x" + dapLen);
+
             showAnalyseData += analyzeDapBlock(lcData, offset, dapLen);
-            offset += 4 + dapLen * 2;
+            offset += lenCount + dapLen * 2;
          break;
          case "C4":
          case "D4":
@@ -948,8 +1144,15 @@ function analyzeLoad(apduData) {
       C3: Load File Data Block Signature  
 */
 function analyzeDapBlock(lcData, offset, dapBlockLen) {
-   var displayData = "E2 " + lcData.substr(offset + 2, 2) + " [DAP Block] <br>";
-   offset += 4;
+   var dapLen = lcData.substr(offset + 2, 2);
+   if (dapLen == "81") {
+      dapLen = lcData.substr(offset + 2, 4);
+      offset += 6;
+   } else {
+      offset += 4;
+   }
+
+   var displayData = "E2 " + dapLen + " [DAP Block] <br>";
    var tag;
    var lenHex;
    var len;
@@ -1046,11 +1249,11 @@ function analyzeDelete(apduData) {
 
    var p2 = getP2(apduData);
    if (p2 == "00") {
-      p2 += " [" + " Delete object" + "]";
+      p2 += " [" + "Delete object" + "]";
    } else if (p2 == "80") {
-      p2 += " [" + " Delete object and related object" + "]";
+      p2 += " [" + "Delete object and related object" + "]";
    } else if (p2 == "40") {
-      p2 += " [" + " Delete a root Security Domain and all associated Applications" + "]";
+      p2 += " [" + "Delete a root Security Domain and all associated Applications" + "]";
    }
 
    var lcHex = "0x" + getLc(apduData);
@@ -2380,7 +2583,9 @@ function analyzeGetStatusResponse(apduData) {
       while (offset < len) {
          offset += 2;
          e3TagLen = parseInt("0x" + apduData.substr(offset, 2));
-         analyzeResult += "E3" + " " +  apduData.substr(offset, 2) + " [GlobalPlatform Registry related data] <br>";
+         if (e3TagLen != 0x00) {
+            analyzeResult += "E3" + " " +  apduData.substr(offset, 2) + " [GlobalPlatform Registry related data] <br>";
+         }
          offset += 2;
 
          e3TagLen = (e3TagLen * 2 + offset);
@@ -2751,6 +2956,74 @@ function analyzeCRSSetStatusResponse(apduData) {
    else {
       alert("Not Supported Tag:" + tag);
       return;
+   }
+
+   $("#data_field").html(analyzeResult);
+}
+
+/* 
+   Install/Load/Delete Confirmation
+   1B08293C5097B047E98C0200050E4953445F49494E4953445F49494E 
+*/
+function analyzeConfirmation(apduData) {
+   var analyzeResult = "";
+   var offset;
+   var len = apduData.substr(0, 2);
+   var dataMeaning;
+
+   if (len != "81") {
+      offset = 2;
+      dataMeaning = len;
+   } else {
+      len = apduData.substr(2, 2);
+      offset = 4;
+      dataMeaning = apduData.substr(0, 4);
+   }
+   analyzeResult = dataMeaning + "[Length of Confirmation]" + "<br>";
+   
+   len = apduData.substr(offset, 2);
+   if (len != "81") {
+      offset += 2;
+      dataMeaning = len;
+   } else {
+      len = apduData.substr(offset + 2, 2);
+      offset += 4;
+      dataMeaning = apduData.substr(offset, 4);
+   }
+   len = parseInt("0x" + len) * 2;
+   analyzeResult += TAB + dataMeaning + " " + apduData.substr(offset, len) + "[Receipt LV]" + "<br>";
+   offset += len;
+
+   len = apduData.substr(offset, 2);
+   dataMeaning = len;
+   offset += 2;
+   len = parseInt("0x" + len) * 2;
+   analyzeResult += TAB + dataMeaning + " " + apduData.substr(offset, len) + "[Confirmation Counter LV]" + "<br>";
+   offset += len;
+
+   len = apduData.substr(offset, 2);
+   dataMeaning = len;
+   offset += 2;
+   len = parseInt("0x" + len) * 2;
+   analyzeResult += TAB + dataMeaning + " " + apduData.substr(offset, len) + "[Card Unique Data LV]" + "<br>";
+   offset += len;
+
+   if (offset < len) {
+      len = apduData.substr(offset, 2);
+      dataMeaning = len;
+      offset += 2;
+      len = parseInt("0x" + len) * 2;
+      analyzeResult += TAB + dataMeaning + " " + apduData.substr(offset, len) + "[Token identifier LV]" + "<br>";
+      offset += len;
+
+      if (offset < len) {
+         len = apduData.substr(offset, 2);
+         dataMeaning = len;
+         offset += 2;
+         len = parseInt("0x" + len) * 2;
+         analyzeResult += TAB + dataMeaning + " " + apduData.substr(offset, len) + "[Token Data digest LV]" + "<br>";
+         offset += len;
+      }
    }
 
    $("#data_field").html(analyzeResult);

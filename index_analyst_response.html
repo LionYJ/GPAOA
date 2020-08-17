@@ -62,11 +62,12 @@
             <label>GP Command Type for Response APDU:</label><br>
             <input type="radio" name="ins" id="ins_select" value="A4" checked> Select SD&CRS Command【A4】 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" name="ins" id="ins_get_data" value="CA"> GET DATA Command【CA】 <br>
-            <input type="radio" name="ins" id="ins_get_status" value="F2"> GET STATUS Command【F2】 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="ins" id="ins_get_status" value="F2"> GET STATUS Command【F2】 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" name="ins" id="ins_initialize_update" value="50"> INITIALIZE UPDATE Command【50】<br>
             <input type="radio" name="ins" id="ins_crs_get_data" value="CB"> CRS GET DATA Command【CA】 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="ins" id="ins_crs_get_status" value="F3"> CRS GET STATUS Command【F2】&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="ins" id="ins_crs_set_status" value="F1"> CRS SET STATUS Command【F0】<br>
+            <input type="radio" name="ins" id="ins_crs_get_status" value="F3"> CRS GET STATUS Command【F2】&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+            <input type="radio" name="ins" id="ins_crs_set_status" value="F1"> CRS SET STATUS Command【F0】&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            <input type="radio" name="ins" id="ins_install" value="E6"> Install/Load/Delete Confirmation【E6/E8/E4】<br>
             <br>
           </div>
 
@@ -102,6 +103,8 @@
                   61344F0CA000000151434C41420101019F700207018002000081011DA40E4F0CA0000001514352454C0101018701008801008A020000
              CRS Set Status Command Response:
                   61264F05A000000001A0074F05A000000002A20B480200014F05A000000002A1074F05A000000003 
+             Install/Load/Delete Confirmation:
+                  1B08293C5097B047E98C0200050E4953445F49494E4953445F49494E 
           -->
 
           <div class="col-xs-8">
@@ -149,6 +152,7 @@
         $(document).ready(function(){
             $("#analyse").click(function(){    
               var apduData = $.trim($("#apduText").val()).toUpperCase();
+              apduData = apduData.replace(/\s/g, "");
               var ins = $("input[name='ins']:checked").val();
               //alert(ins);
               switch (ins) {
@@ -178,6 +182,9 @@
                   break;
                 case "F1":
                   analyzeCRSSetStatusResponse(apduData);
+                  break;
+                case "E6":
+                  analyzeConfirmation(apduData);
                   break;
 
                 default:

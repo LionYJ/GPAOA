@@ -59,7 +59,7 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h3 class="page-header">Analyst for GP Command APDU</h3>
           <div class="col-xs-8">
-            <input id="apduText" type="text" placeholder="Please Insert GP APDU Command" class="form-control" value="80E60400930112011201120380808087C90112EF70C70112C80112CB0112D70112D80112CA0112CF0112A0258003818284810101A20112830112840112A5098001C08101C08201C0860112870112880112A1297F200112A00112A1034F0112A2034F0112A3034F0112A4034F0112A5034F0112A60112870112880101B00112820112830112EA0112B60D4201124501125F20011293011200">
+            <input id="apduText" type="text" placeholder="Please Insert GP APDU Command" class="form-control" value="80E60C00700511223344550611223344556607112233445566770388DA2055C903820100EF26C7020100C8020200A00D8003818284810101A5038001C0A10388010182020200830400010000EA1A8012FF0010050101020203030404050507000000810400010000B60A4203121212450315151500">
           </div>
           <div class="col-xs-2">
             <button id="analyse" type="submit" class="btn btn-primary" class="form-control">Analyse</button>
@@ -153,6 +153,7 @@
         $(document).ready(function(){
             $("#analyse").click(function(){             
               var apduData = $.trim($("#apduText").val()).toUpperCase();
+              apduData = apduData.replace(/\s/g, "");
               var ins = apduData.substr(2, 2);
               //alert(ins);
               switch (ins) {

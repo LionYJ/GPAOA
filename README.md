@@ -11,5 +11,4 @@ GP APDU Organizer Analyst V1.0 for GPCS v2.3 and GPCS Amendment C v1.2, which su
 ### Support Browser:    
 * Chrome   
 * Firfox      
-* Safari
 * IE(10+), need deploy in server software(e.g.IIS) for loacalStorage reason.
